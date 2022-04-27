@@ -1,5 +1,8 @@
 <template>
     <div>leaderboard component</div>
+    <div>
+
+    </div>
 </template>
 
 
