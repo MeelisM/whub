@@ -1,125 +1,78 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "@/components/HelloWorld.vue";
-</script>
-
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="app">
+    <div class="sidebar-container">
+      <SideBar />
     </div>
-  </header>
+    <div class="main-container">
+      <RouterView />
+    </div>
 
-  <RouterView />
+  </div>
 </template>
 
-<style>
-@import "@/assets/base.css";
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+<script>
 
-  font-weight: normal;
-}
+import SideBar from "@/components/SideBar.vue";
+import { RouterView } from "vue-router"
 
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+export default {
+  components: {
+    SideBar,
+    RouterView
   }
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
+</script>
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
+<style lang="scss">
+:root {
+  --text-primary: black;
+  --text-secondary: grey;
+  --bg-dark: #010312;
+  --bg-light: #ffffff;
+  font-size: 16px;
 
-nav a:first-of-type {
-  border: 0;
-}
+  // Firefox scrollbar
+  scrollbar-color: var(--bg-dark) var(--bg-light);
+  scrollbar-width: thin;
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
+  // Other browsers scrollbar
+  body::-webkit-scrollbar {
+    width: 0.5rem;
   }
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+  body::-webkit-scrollbar-track {
+    background: var(--bg-dark);
   }
 
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+  body::-webkit-scrollbar-thumb {
+    background: var(--bg-light)
   }
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  background-color: white;
+  // without height, bgcolor works fully when dealing with extremely large table
+  height: 100vh;
+}
+
+
+
+@media only screen and (min-width: 600px) {
+  .main-container {
+    flex: 1;
+    margin: 0rem 6rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {}
 </style>

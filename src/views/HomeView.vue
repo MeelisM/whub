@@ -1,9 +1,18 @@
-<script setup>
-import TheWelcome from "@/components/TheWelcome.vue";
-</script>
-
 <template>
   <main>
-    <TheWelcome />
+    <Search />
   </main>
 </template>
+
+
+<script>
+import Search from "@/components/Search.vue";
+
+export default {
+  components: {
+    Search
+  }
+}
+</script>
+
+
