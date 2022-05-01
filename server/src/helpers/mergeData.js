@@ -13,4 +13,4 @@ const mergeData = async function (firstDataset, secondDataset) {
   return mergedResult;
 };
 
-module.exports = mergeData
+module.exports = mergeData;

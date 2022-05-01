@@ -8,7 +8,7 @@
             </Column>
             <Column header="Image" :sortable="true" class="field icon">
                 <template #body="{ data }">
-                    <img :src="data.images.contour_icon" :alt="data.images.contour_icon" />
+                    <img :src="data.images.contour_icon" :alt="data.images.contour_icon">{{ data.short_name }}<img>
                 </template>
             </Column>
             <Column field="nation" header="Nation" :sortable="true" class="field nation"></Column>
@@ -44,9 +44,9 @@ export default {
 </script>
 
 <style lang="scss">
-.tier,
-.icon,
-.nation {
-    width: 120px;
-}
+// .tier,
+// .icon,
+// .nation {
+//     width: 120px;
+// }
 </style>
