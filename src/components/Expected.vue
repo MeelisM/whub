@@ -1,14 +1,18 @@
 <template>
-    <div>
-        <DataTable :value="expected" class="p-datatable-sm" responsiveLayout="scroll" :paginator="true" :rows="10"
+    <div class="container">
+        <DataTable :value="tableData" class="p-datatable-sm" responsiveLayout="scroll" :paginator="true" :rows="20"
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-            :rowsPerPageOptions="[10, 25]" sortField="expDamage" :sortOrder="-1">
+            :rowsPerPageOptions="[10, 20, 50]" sortField="expDamage" :sortOrder="-1">
             <Column field="short_name" header="Name" :sortable="true">
-
+                <template #body="slotProps">
+                    <div :class="premiumClass(slotProps.data)">
+                        {{ slotProps.data.short_name }}
+                    </div>
+                </template>
             </Column>
-            <Column header="Image" :sortable="true" class="field icon">
+            <Column header="Image" class="field icon">
                 <template #body="{ data }">
-                    <img :src="data.images.contour_icon" :alt="data.images.contour_icon">{{ data.short_name }}<img>
+                    <img :src="data.images.contour_icon" :alt="data.images.contour_icon">
                 </template>
             </Column>
             <Column field="nation" header="Nation" :sortable="true" class="field nation"></Column>
@@ -24,26 +28,57 @@
 </template>
 
 <script>
-import ExpectedService from "../service/ExpectedService";
+import DataService from "../service/DataService";
 
 export default {
     name: 'Expected',
     data() {
         return {
-            expected: null
+            tableData: null,
         }
     },
-    expectedService: null,
+    dataService: null,
     created() {
-        this.expectedService = new ExpectedService();
+        this.dataService = new DataService();
     },
     mounted() {
-        this.expectedService.getExpectedValues().then(data => this.expected = data);
+        this.dataService.getExpectedValues().then(data => this.tableData = data);
+    },
+
+    methods: {
+        premiumClass(data) {
+            return [
+                {
+                    'short_name': data.is_premium == true
+
+                }
+            ]
+        }
     }
 }
 </script>
 
 <style lang="scss">
+@media only screen and (min-width: 600px) {
+    .container {
+        margin: auto;
+        width: 50%;
+
+    }
+
+    .short_name {
+        color: #FFA726
+    }
+}
+
+
+@media only screen and (max-width: 600px) {
+    .container {
+        width: 100%;
+
+    }
+}
+
 // .tier,
 // .icon,
 // .nation {
