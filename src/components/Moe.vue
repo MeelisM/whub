@@ -3,6 +3,11 @@
         <DataTable :value="tableData" class="p-datatable-sm" responsiveLayout="scroll" :paginator="true" :rows="20"
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             :rowsPerPageOptions="[10, 20, 50]" sortField="marks.95" :sortOrder="-1">
+            <Column class="field icon">
+                <template #body="{ data }">
+                    <img :src="data.images.contour_icon" :alt="data.images.contour_icon">
+                </template>
+            </Column>
             <Column field="short_name" header="Name" :sortable="true">
                 <template #body="slotProps">
                     <div :class="checkIfPremium(slotProps.data)">
@@ -10,13 +15,7 @@
                     </div>
                 </template>
             </Column>
-            <Column header="Image" class="field icon">
-                <template #body="{ data }">
-                    <img :src="data.images.contour_icon" :alt="data.images.contour_icon">
-                </template>
-            </Column>
             <Column field="nation" header="Nation" :sortable="true" class="field nation"></Column>
-
             <Column field="tier" header="Tier" :sortable="true" class="field tier"></Column>
             <Column field="marks.65" header="65%" :sortable="true"></Column>
             <Column field="marks.85" header="85%" :sortable="true"></Column>
@@ -30,7 +29,7 @@
 import DataService from "../service/DataService";
 
 export default {
-    name: 'mastery',
+    name: 'Moe',
     data() {
         return {
             tableData: null,

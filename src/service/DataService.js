@@ -3,6 +3,7 @@ import axios from 'axios';
 const expectedAPI = 'http://localhost:3001/api/expected';
 const masteryAPI = 'http://localhost:3001/api/mastery';
 const moeAPI = 'http://localhost:3001/api/moe';
+const playerAPI = `http://localhost:3001/api/player/`;
 
 export default class DataService {
   getExpectedValues() {
@@ -13,5 +14,9 @@ export default class DataService {
   }
   getMoeValues() {
     return axios.get(moeAPI).then((response) => response.data);
+  }
+  getPlayerValues(id) {
+    const userId = id;
+    return axios.get(playerAPI + userId).then((response) => response.data);
   }
 }

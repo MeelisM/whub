@@ -29,6 +29,11 @@ const router = createRouter({
       name: 'mastery',
       component: () => import('../views/MasteryView.vue'),
     },
+    {
+      path: '/player/:id',
+      name: 'player',
+      component: () => import('../views/PlayerView.vue'),
+    },
   ],
 });
 
