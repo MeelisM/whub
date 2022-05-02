@@ -1,5 +1,11 @@
-const calculateWn8 = async function (data) {
-  const id = data.id;
+const calculateWn8 = function (data) {
+  const avgDef = data.avgDef;
+  const avgDmg = data.avgDmg;
+  const avgSpot = data.avgSpot;
+  const avgWinRate = data.avgWinRate;
+  const avgFrag = data.avgFrag;
+  const survived = data.survived;
+
   const rDAMAGE = data.avgDmg / data.expDmg;
   const rSPOT = data.avgSpot / data.expSpot;
   const rFRAG = data.avgFrag / data.expFrag;
@@ -15,7 +21,7 @@ const calculateWn8 = async function (data) {
   const wn8 =
     980 * rDAMAGEc + 210 * rDAMAGEc * rFRAGc + 155 * rFRAGc * rSPOTc + 75 * rDEFc * rFRAGc + 145 * Math.min(1.8, rWINc);
 
-  return { tank_id: id, wn8: Math.round(wn8) };
+  return { IDNum: data.id, wn8: Math.round(wn8), avgDef, avgDmg, avgSpot, avgWinRate, avgFrag, survived };
 };
 
 module.exports = calculateWn8;

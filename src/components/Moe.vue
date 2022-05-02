@@ -56,11 +56,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @media only screen and (min-width: 600px) {
     .container {
         margin: auto;
-        width: 50%;
+        width: 70%;
 
     }
 
@@ -68,6 +68,8 @@ export default {
         color: #FFA726;
     }
 }
+
+
 
 
 @media only screen and (max-width: 600px) {

@@ -32,7 +32,7 @@ export default {
   --text-primary: black;
   --text-secondary: grey;
   --bg-dark: #010312;
-  --bg-light: #ffffff;
+  --bg-light: rgb(223, 223, 223);
   font-size: 16px;
 
   // Firefox scrollbar
@@ -54,15 +54,15 @@ export default {
 }
 
 * {
+  text-decoration: none;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.app {
-  background-color: white;
-  // without height, bgcolor works fully when dealing with extremely large table
-  height: 100vh;
+body {
+  background-color: rgb(24, 24, 24);
+
 }
 
 

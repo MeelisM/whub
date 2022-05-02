@@ -1,8 +1,13 @@
 <template>
     <div class="container">
-        <DataTable :value="tableData" class="p-datatable-sm" responsiveLayout="scroll" :paginator="true" :rows="20"
-            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-            :rowsPerPageOptions="[10, 20, 50]" sortField="mastery.3" :sortOrder="-1">
+        <div v-if="loading" class="spinner-container">
+            <ProgressSpinner class="spinner" style="width:6rem;height:6rem" strokeWidth="5" fill="var(--surface-ground)"
+                animationDuration=".5s" />
+        </div>
+        <DataTable v-if="!loading" :value="tableData" class="p-datatable-sm" responsiveLayout="scroll" :paginator="true"
+            :rows="10" paginatorTemplate="CurrentPageReport  PrevPageLink PageLinks NextPageLink  RowsPerPageDropdown"
+            :rowsPerPageOptions="[5, 10, 20, 50]" sortField="mastery.3" :sortOrder="-1">
+
             <Column class="field icon">
                 <template #body="{ data }">
                     <img :src="data.images.contour_icon" :alt="data.images.contour_icon">
@@ -27,7 +32,9 @@
             <Column field="mastery.1" header="2nd class" :sortable="true"></Column>
             <Column field="mastery.2" header="1st class" :sortable="true"></Column>
             <Column field="mastery.3" header="Ace Tanker" :sortable="true"></Column>
+
         </DataTable>
+
     </div>
 </template>
 
@@ -39,6 +46,7 @@ export default {
     data() {
         return {
             tableData: null,
+            loading: false,
         }
     },
     dataService: null,
@@ -46,7 +54,9 @@ export default {
         this.dataService = new DataService();
     },
     mounted() {
-        this.dataService.getMasteryValues().then(data => this.tableData = data);
+        this.loading = true;
+        this.dataService.getMasteryValues().then(data => { this.tableData = data, this.loading = false; });
+
     },
 
     methods: {
@@ -70,15 +80,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@media only screen and (min-width: 600px) {
-    .container {
-        margin: auto;
-        width: 70%;
+.container {
+    margin: auto;
+    width: 80%;
 
+
+    .spinner-container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
+}
+
+
+@media only screen and (min-width: 600px) {
+
+
+
 
     .premium {
         color: #FFA726
+    }
+
+    .p-datatable .p-datatable-loading-icon {
+        color: #FFA726;
     }
 
     .ussr {
@@ -96,6 +122,7 @@ export default {
 @media only screen and (max-width: 600px) {
     .container {
         width: 100%;
+        padding-bottom: 5rem;
 
     }
 

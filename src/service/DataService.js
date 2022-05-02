@@ -16,7 +16,6 @@ export default class DataService {
     return axios.get(moeAPI).then((response) => response.data);
   }
   getPlayerValues(id) {
-    const userId = id;
-    return axios.get(playerAPI + userId).then((response) => response.data);
+    return axios.get(playerAPI + id).then((response) => response.data);
   }
 }
