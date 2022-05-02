@@ -1,5 +1,5 @@
 const axios = require('axios');
-// const calculateWn8 = require('../../helpers/wn8');
+const calculateWn8 = require('../../helpers/wn8');
 const mergeData = require('../../helpers/mergeData');
 
 const getPlayerStats = async function (req, res) {
@@ -29,6 +29,7 @@ const getPlayerStats = async function (req, res) {
     await mergedTanksData.forEach((index) => {
       const wn8data = {
         id: index.tank_id,
+        survived: (index.all.survived_battles / index.all.battles) * 100,
         expDef: index.expDef,
         expDmg: index.expDamage,
         expFrag: index.expFrag,
@@ -45,82 +46,56 @@ const getPlayerStats = async function (req, res) {
       return wn8PerTank.push(wn8data);
     });
 
-    const calculateWn8 = function (data) {
-      const rDAMAGE = data.avgDmg / data.expDmg;
-      const rSPOT = data.avgSpot / data.expSpot;
-      const rFRAG = data.avgFrag / data.expFrag;
-      const rDEF = data.avgDef / data.expDef;
-      const rWIN = data.avgWinRate / data.expWinRate;
-
-      const rWINc = Math.max(0, (rWIN - 0.71) / (1 - 0.71));
-      const rDAMAGEc = Math.max(0, (rDAMAGE - 0.22) / (1 - 0.22));
-      const rFRAGc = Math.max(0, Math.min(rDAMAGEc + 0.2, (rFRAG - 0.12) / (1 - 0.12)));
-      const rSPOTc = Math.max(0, Math.min(rDAMAGEc + 0.1, (rSPOT - 0.38) / (1 - 0.38)));
-      const rDEFc = Math.max(0, Math.min(rDAMAGEc + 0.1, (rDEF - 0.1) / (1 - 0.1)));
-
-      const wn8 =
-        980 * rDAMAGEc +
-        210 * rDAMAGEc * rFRAGc +
-        155 * rFRAGc * rSPOTc +
-        75 * rDEFc * rFRAGc +
-        145 * Math.min(1.8, rWINc);
-
-      return { IDNum: data.id, wn8: Math.round(wn8) };
-    };
-
     const wn8Results = await wn8PerTank.map(calculateWn8);
 
     const tankStats = await mergeData(mergedTanksData, wn8Results);
 
-    const playerProfile = [
-      {
+    const playerProfile = {
+      tankStats,
+
+      playerInfo: {
         username: playerIdResponse.data.data[0].nickname,
         accountId: playerIdResponse.data.data[0].account_id,
         clanId: playerGeneralStatsResponse.data.data[playerId].clan_id,
         globalRating: playerGeneralStatsResponse.data.data[playerId].global_rating,
-
-        overallStats: {
-          spotsTotal: playerGeneralStatsResponse.data.data[playerId].statistics.all.spotted,
-          spotsAvg:
-            playerGeneralStatsResponse.data.data[playerId].statistics.all.spotted /
-            playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
-          assistedAverage: playerGeneralStatsResponse.data.data[playerId].statistics.all.avg_damage_assisted,
-          hitsTotal: playerGeneralStatsResponse.data.data[playerId].statistics.all.hits,
-          hitsPercent: playerGeneralStatsResponse.data.data[playerId].statistics.all.hits_percents,
-          xpAverage: playerGeneralStatsResponse.data.data[playerId].statistics.all.avg_xp,
-          xpMax: playerGeneralStatsResponse.data.data[playerId].statistics.all.max_xp,
-          xpTotal: playerGeneralStatsResponse.data.data[playerId].statistics.all.xp,
-          blockedAverage: playerGeneralStatsResponse.data.data[playerId].statistics.all.avg_damage_blocked,
-          capturePoints: playerGeneralStatsResponse.data.data[playerId].statistics.all.capture_points,
-          defensePoints: playerGeneralStatsResponse.data.data[playerId].statistics.all.dropped_capture_points,
-          defenseAvg:
-            playerGeneralStatsResponse.data.data[playerId].statistics.all.dropped_capture_points /
-            playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
-          survivedBattles: playerGeneralStatsResponse.data.data[playerId].statistics.all.survived_battles,
-          kills: playerGeneralStatsResponse.data.data[playerId].statistics.all.frags,
-          killsMax: playerGeneralStatsResponse.data.data[playerId].statistics.all.max_frags,
-          killsAvg:
-            playerGeneralStatsResponse.data.data[playerId].statistics.all.frags /
-            playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
-          damageDealt: playerGeneralStatsResponse.data.data[playerId].statistics.all.damage_dealt,
-          damageReceived: playerGeneralStatsResponse.data.data[playerId].statistics.all.damage_received,
-          damageMax: playerGeneralStatsResponse.data.data[playerId].statistics.all.max_damage,
-          damageAvg:
-            playerGeneralStatsResponse.data.data[playerId].statistics.all.damage_dealt /
-            playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
-          wins: playerGeneralStatsResponse.data.data[playerId].statistics.all.wins,
-          losses: playerGeneralStatsResponse.data.data[playerId].statistics.all.losses,
-          draws: playerGeneralStatsResponse.data.data[playerId].statistics.all.draws,
-          battles: playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
-          winRate:
-            (playerGeneralStatsResponse.data.data[playerId].statistics.all.wins /
-              playerGeneralStatsResponse.data.data[playerId].statistics.all.battles) *
-            100,
-        },
-        tankStats,
+        spotsTotal: playerGeneralStatsResponse.data.data[playerId].statistics.all.spotted,
+        spotsAvg:
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.spotted /
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
+        assistedAverage: playerGeneralStatsResponse.data.data[playerId].statistics.all.avg_damage_assisted,
+        hitsTotal: playerGeneralStatsResponse.data.data[playerId].statistics.all.hits,
+        hitsPercent: playerGeneralStatsResponse.data.data[playerId].statistics.all.hits_percents,
+        xpAverage: playerGeneralStatsResponse.data.data[playerId].statistics.all.avg_xp,
+        xpMax: playerGeneralStatsResponse.data.data[playerId].statistics.all.max_xp,
+        xpTotal: playerGeneralStatsResponse.data.data[playerId].statistics.all.xp,
+        blockedAverage: playerGeneralStatsResponse.data.data[playerId].statistics.all.avg_damage_blocked,
+        capturePoints: playerGeneralStatsResponse.data.data[playerId].statistics.all.capture_points,
+        defensePoints: playerGeneralStatsResponse.data.data[playerId].statistics.all.dropped_capture_points,
+        defenseAvg:
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.dropped_capture_points /
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
+        survivedBattles: playerGeneralStatsResponse.data.data[playerId].statistics.all.survived_battles,
+        kills: playerGeneralStatsResponse.data.data[playerId].statistics.all.frags,
+        killsMax: playerGeneralStatsResponse.data.data[playerId].statistics.all.max_frags,
+        killsAvg:
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.frags /
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
+        damageDealt: playerGeneralStatsResponse.data.data[playerId].statistics.all.damage_dealt,
+        damageReceived: playerGeneralStatsResponse.data.data[playerId].statistics.all.damage_received,
+        damageMax: playerGeneralStatsResponse.data.data[playerId].statistics.all.max_damage,
+        damageAvg:
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.damage_dealt /
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
+        wins: playerGeneralStatsResponse.data.data[playerId].statistics.all.wins,
+        losses: playerGeneralStatsResponse.data.data[playerId].statistics.all.losses,
+        draws: playerGeneralStatsResponse.data.data[playerId].statistics.all.draws,
+        battles: playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
+        winRate:
+          (playerGeneralStatsResponse.data.data[playerId].statistics.all.wins /
+            playerGeneralStatsResponse.data.data[playerId].statistics.all.battles) *
+          100,
       },
-    ];
-
+    };
     res.json(playerProfile);
   } catch (error) {
     console.error(error);

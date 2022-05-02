@@ -61,7 +61,7 @@ export default {
 @media only screen and (min-width: 600px) {
     .container {
         margin: auto;
-        width: 50%;
+        width: 70%;
 
     }
 
