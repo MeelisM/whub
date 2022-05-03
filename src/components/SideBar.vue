@@ -75,7 +75,8 @@ export default {
     justify-content: center;
     height: 5rem;
     text-decoration: none;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+    font-weight: 600;
     color: #ffffff;
   }
 

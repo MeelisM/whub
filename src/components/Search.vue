@@ -6,22 +6,37 @@
           <i class="pi pi-user"></i>
         </span>
         <InputText v-model="searchInput" placeholder="Username" class="input" />
-        <router-link :to="'/player/' + searchInput"><Button label="Search" /></router-link>
+        <Button @click="getPlayer" label="Search" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import DataService from '../service/DataService';
+
 export default {
   name: 'Search',
   data() {
     return {
       searchInput: '',
+      userId: null,
     };
   },
+  dataService: null,
+
+  created() {
+    this.dataService = new DataService();
+  },
+
   methods: {
-    //
+    async getPlayer() {
+      this.dataService.getPlayerId(this.searchInput).then((data) => {
+        this.userId = data.data[0].account_id;
+        console.log(this.userId);
+        this.$router.push(`/player/${this.userId}`);
+      });
+    },
   },
 };
 </script>
