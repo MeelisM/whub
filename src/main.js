@@ -15,6 +15,7 @@ import Button from 'primevue/button';
 import ProgressSpinner from 'primevue/progressspinner';
 import Tag from 'primevue/tag';
 import Divider from 'primevue/divider';
+import Chart from 'primevue/chart';
 const app = createApp(App);
 
 app.use(VueAxios, axios);
@@ -29,5 +30,6 @@ app.component('Button', Button);
 app.component('ProgressSpinner', ProgressSpinner);
 app.component('Tag', Tag);
 app.component('Divider', Divider);
+app.component('Chart', Chart);
 
 app.mount('#app');
