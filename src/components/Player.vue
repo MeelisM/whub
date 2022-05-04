@@ -1,147 +1,144 @@
 <template>
   <div class="container">
-    <div v-if="loading" class="spinner-container">
-      <ProgressSpinner
-        class="spinner"
-        style="width: 6rem; height: 6rem"
-        strokeWidth="5"
-        fill="var(--surface-ground)"
-        animationDuration=".5s"
-      />
-    </div>
-
-    <div class="profile">
-      <div class="profile-second">
-        <div class="container-one">
-          <img class="clan logo" :src="clanData.clan.emblems.x195.portal" alt="Clan logo" />
-        </div>
-        <div class="container-two">
-          <div class="clan playername">{{ responseData.playerInfo.username }}</div>
-          <div class="clan tag">[{{ clanData.clan.tag }}]</div>
-          <div class="clan joined">
-            Joined:
-            {{
-              new Date(clanData.joined_at * 1000).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })
-            }}
+    <div class="main-container">
+      <div class="profile">
+        <div class="profile-second">
+          <div class="container-one">
+            <img class="clan logo" :src="clanData.clan.emblems.x195.portal" alt="Clan logo" />
           </div>
-          <div class="clan role">{{ clanData.role_i18n }}</div>
+          <div class="container-two">
+            <div class="clan playername">{{ responseData.playerInfo.username }}</div>
+            <div class="clan tag">[{{ clanData.clan.tag }}]</div>
+            <div class="clan joined">
+              Joined:
+              {{
+                new Date(clanData.joined_at * 1000).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })
+              }}
+            </div>
+            <div class="clan role">{{ clanData.role_i18n }}</div>
+          </div>
         </div>
-      </div>
-      <div class="container-three">
-        <table>
-          <tr>
-            <td></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <Divider align="left">
-      <span class="p-tag">Graph</span>
-    </Divider>
-
-    <div class="graph-container">
-      <div class="graph">
-        <div>
-          <Chart type="line" :data="multiAxisData" :options="multiAxisOptions" />
+        <div class="container-three">
+          <table>
+            <tr>
+              <td>asd</td>
+            </tr>
+          </table>
         </div>
       </div>
-      <div class="graph">
-        <div>
-          <Chart type="line" :data="multiAxisData" :options="multiAxisOptions" />
-        </div>
-      </div>
-    </div>
 
-    <Divider align="left">
-      <span class="p-tag">Tanks Data</span>
-    </Divider>
+      <Divider align="left">
+        <span class="p-tag">Graph</span>
+      </Divider>
 
-    <DataTable
-      v-if="!loading"
-      :value="responseData.tankStats"
-      class="p-datatable-sm"
-      responsiveLayout="scroll"
-      :autoLayout="true"
-      :paginator="true"
-      :rows="10"
-      paginatorTemplate="CurrentPageReport  PrevPageLink PageLinks NextPageLink  RowsPerPageDropdown"
-      :rowsPerPageOptions="[5, 10, 20, 50]"
-      sortField="avgDmg"
-      :sortOrder="-1"
-    >
-      <Column class="field contour" field="images.contour_icon" header="Icon">
-        <template #body="{ data }">
-          <img :src="data.images.contour_icon" :alt="data.images.contour_icon" />
-        </template>
-      </Column>
-      <Column class="field tank-type" field="nation" header="Class">
-        <template #body="slotProps">
-          <div :class="slotProps.data">
-            <img class="tank-type" :src="'/type/' + slotProps.data.type + '.png'" :alt="slotProps.data.type" />
-          </div>
-        </template>
-      </Column>
-      <Column class="field" field="short_name" header="Name" :sortable="true">
-        <template #body="slotProps">
-          <div :class="checkPremium(slotProps.data)">
-            {{ slotProps.data.short_name }}
-          </div>
-        </template>
-      </Column>
-      <Column class="field nation" field="nation" header="Nation">
-        <template #body="slotProps">
-          <div :class="slotProps.data">
-            <img class="nation-icon" :src="'/' + slotProps.data.nation + '.png'" :alt="slotProps.data.nation" />
-          </div>
-        </template>
-      </Column>
-      <Column class="field" field="wn8" header="WN8" :sortable="true">
-        <template #body="slotProps">
+      <div class="graph-container">
+        <div class="graph">
           <div>
-            <Tag :class="wn8Colors(slotProps.data)" severity="success" rounded>{{ slotProps.data.wn8 }}</Tag>
+            <Chart type="line" :data="multiAxisData" :options="multiAxisOptions" />
           </div>
-        </template>
-      </Column>
-      <Column class="field battles" field="all.battles" header="Battles" :sortable="true"></Column>
-      <Column class="field" field="avgWinRate" header="Winrate" :sortable="true">
-        <template #body="slotProps">
-          <div>
-            <Tag :class="winRateColors(slotProps.data)" severity="success" rounded>
-              {{ slotProps.data.avgWinRate.toFixed(2) }}%</Tag
-            >
-          </div>
-        </template>
-      </Column>
-      <Column class="field" field="avgDmg" header="DPG" :sortable="true">
-        <template #body="slotProps">
-          <div>
-            {{ slotProps.data.avgDmg.toFixed(0) }}
-          </div>
-        </template>
-      </Column>
-      <Column class="field" field="all.battle_avg_xp" header="XP" :sortable="true"> </Column>
-      <Column class="field" field="survived" header="Survived" :sortable="true">
-        <template #body="slotProps">
-          <div>{{ slotProps.data.survived.toFixed(2) }}%</div>
-        </template>
-      </Column>
-      <Column class="field tank-type" field="mark_of_mastery" header="Badge" :sortable="true">
-        <template #body="slotProps">
-          <div :class="checkMarks(slotProps.data)">
-            <img
-              class="img-mastery"
-              :src="'/mastery/' + slotProps.data.mark_of_mastery + '.png'"
-              :alt="slotProps.data.mark_of_mastery"
-            />
-          </div>
-        </template>
-      </Column>
-    </DataTable>
+        </div>
+      </div>
+      <Divider align="left">
+        <span class="p-tag">Tanks Data</span>
+      </Divider>
+
+      <div v-if="loading" class="spinner-container">
+        <ProgressSpinner
+          class="spinner"
+          style="width: 6rem; height: 6rem"
+          strokeWidth="5"
+          fill="var(--surface-ground)"
+          animationDuration=".5s"
+        />
+        <p class="loading-msg">Please wait. Loading data table...</p>
+      </div>
+
+      <DataTable
+        v-if="!loading"
+        :value="responseData.tankStats"
+        class="p-datatable-sm"
+        responsiveLayout="scroll"
+        :autoLayout="true"
+        :paginator="true"
+        :rows="10"
+        paginatorTemplate="CurrentPageReport  PrevPageLink PageLinks NextPageLink  RowsPerPageDropdown"
+        :rowsPerPageOptions="[5, 10, 20, 50]"
+        sortField="avgDmg"
+        :sortOrder="-1"
+      >
+        <Column class="field contour" field="images.contour_icon" header="Icon">
+          <template #body="{ data }">
+            <img :src="data.images.contour_icon" :alt="data.images.contour_icon" />
+          </template>
+        </Column>
+        <Column class="field tank-type" field="nation" header="Class">
+          <template #body="slotProps">
+            <div :class="slotProps.data">
+              <img class="tank-type" :src="'/type/' + slotProps.data.type + '.png'" :alt="slotProps.data.type" />
+            </div>
+          </template>
+        </Column>
+        <Column class="field" field="short_name" header="Name" :sortable="true">
+          <template #body="slotProps">
+            <div :class="checkPremium(slotProps.data)">
+              {{ slotProps.data.short_name }}
+            </div>
+          </template>
+        </Column>
+        <Column class="field nation" field="nation" header="Nation">
+          <template #body="slotProps">
+            <div :class="slotProps.data">
+              <img class="nation-icon" :src="'/' + slotProps.data.nation + '.png'" :alt="slotProps.data.nation" />
+            </div>
+          </template>
+        </Column>
+        <Column class="field" field="wn8" header="WN8" :sortable="true">
+          <template #body="slotProps">
+            <div>
+              <Tag :class="wn8Colors(slotProps.data)" severity="success" rounded>{{ slotProps.data.wn8 }}</Tag>
+            </div>
+          </template>
+        </Column>
+        <Column class="field battles" field="all.battles" header="Battles" :sortable="true"></Column>
+        <Column class="field" field="avgWinRate" header="Winrate" :sortable="true">
+          <template #body="slotProps">
+            <div>
+              <Tag :class="winRateColors(slotProps.data)" severity="success" rounded>
+                {{ slotProps.data.avgWinRate.toFixed(2) }}%</Tag
+              >
+            </div>
+          </template>
+        </Column>
+        <Column class="field" field="avgDmg" header="DPG" :sortable="true">
+          <template #body="slotProps">
+            <div>
+              {{ slotProps.data.avgDmg.toFixed(0) }}
+            </div>
+          </template>
+        </Column>
+        <Column class="field" field="all.battle_avg_xp" header="XP" :sortable="true"> </Column>
+        <Column class="field" field="survived" header="Survived" :sortable="true">
+          <template #body="slotProps">
+            <div>{{ slotProps.data.survived.toFixed(2) }}%</div>
+          </template>
+        </Column>
+        <Column class="field tank-type" field="mark_of_mastery" header="Badge" :sortable="true">
+          <template #body="slotProps">
+            <div :class="checkMarks(slotProps.data)">
+              <img
+                class="img-mastery"
+                :src="'/mastery/' + slotProps.data.mark_of_mastery + '.png'"
+                :alt="slotProps.data.mark_of_mastery"
+              />
+            </div>
+          </template>
+        </Column>
+      </DataTable>
+    </div>
   </div>
 </template>
 
@@ -153,7 +150,7 @@ export default {
   data() {
     return {
       multiAxisData: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: [],
         datasets: [
           {
             label: 'wn8',
@@ -161,7 +158,7 @@ export default {
             borderColor: '#42A5F5',
             yAxisID: 'y',
             tension: 0.4,
-            data: [65, 59, 80, 81, 56, 55, 10],
+            data: [],
           },
           {
             label: 'winrate',
@@ -169,7 +166,7 @@ export default {
             borderColor: '#00bb7e',
             yAxisID: 'y1',
             tension: 0.4,
-            data: [28, 48, 40, 19, 86, 27, 90],
+            data: [],
           },
         ],
       },
@@ -178,7 +175,7 @@ export default {
         plugins: {
           legend: {
             labels: {
-              color: '#495057',
+              color: '#495057', // title color
             },
           },
         },
@@ -196,7 +193,7 @@ export default {
             display: true,
             position: 'left',
             ticks: {
-              color: '#495057',
+              color: '#495057', // wn8 color
             },
             grid: {
               color: '#ebedef',
@@ -207,7 +204,7 @@ export default {
             display: true,
             position: 'right',
             ticks: {
-              color: '#495057',
+              color: '#495057', // winrate color
             },
             grid: {
               drawOnChartArea: false,
@@ -281,12 +278,48 @@ export default {
   mounted() {
     this.loading = true;
     const id = this.$route.params.id;
+
     this.dataService.getPlayerValues(id).then((data) => {
       (this.responseData = data), (this.loading = false);
+
+      const graphData = {
+        playerId: this.responseData.playerInfo.accountId,
+        battles: this.responseData.playerInfo.battles,
+        wn8: this.responseData.playerInfo.wn8,
+        winrate: this.responseData.playerInfo.winRate,
+      };
+
+      this.dataService.postGraphValues(graphData);
+
+      ////////////////////////////////////////////////////////////
+      // TIER STATISTICS
+
+      const tanksData = this.responseData.tankStats;
+      const tanksAmountPerTier = Object.entries(
+        tanksData.reduce((acc, { tier }) => {
+          acc[tier] = (acc[tier] || 0) + 1;
+          return acc;
+        }, {})
+      ).map(([key, value]) => ({ tier: key, amount: value }));
+
+      const amountOfTanksArray = tanksAmountPerTier.map(({ amount }) => amount);
+      const tierNumberArray = tanksAmountPerTier.map(({ tier }) => tier);
+
+      console.log('AMOUNT OF TANKS', amountOfTanksArray);
+      console.log('TIERS OF TANKS', tierNumberArray);
     });
+
+    //
+    ////////////////////////////////////////////////////////////
 
     this.dataService.getPlayerClan(id).then((data) => {
       this.clanData = data.data[id];
+    });
+
+    this.dataService.getGraphValues(id).then((data) => {
+      this.multiAxisData.labels = data.data[0].battles;
+      this.multiAxisData.datasets[0].data = data.data[0].wn8;
+      this.multiAxisData.datasets[1].data = data.data[0].winrate;
     });
   },
   methods: {
@@ -369,12 +402,16 @@ export default {
   color: #ffffff;
 }
 
+.p-chart {
+  width: 50%;
+}
+
 .container {
   margin: auto;
   width: 80%;
 
-  .graph-container {
-    display: flex;
+  .loading-msg {
+    color: #ffffff;
   }
 
   .clan-logo {
@@ -398,10 +435,10 @@ export default {
   }
 
   .spinner-container {
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
   }
 
   .battles {
@@ -557,6 +594,7 @@ export default {
 
     .profile {
       flex-direction: column;
+      width: 100%;
     }
   }
 }
@@ -597,9 +635,9 @@ export default {
       padding-bottom: -2rem;
     }
   }
-  .container-three {
-    width: 100%;
-  }
+  // .container-three {
+  //   width: 50%;
+  // }
 }
 
 // .tier,
