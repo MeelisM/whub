@@ -18,8 +18,8 @@
         <div class="container-two">
           <div class="clan playername">{{ responseData.playerInfo.username }}</div>
           <div class="clan tag">[{{ clanData.clan.tag }}]</div>
-          <div class="clan role">{{ clanData.role_i18n }}</div>
           <div class="clan joined">
+            Joined:
             {{
               new Date(clanData.joined_at * 1000).toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -28,12 +28,42 @@
               })
             }}
           </div>
+          <div class="clan role">{{ clanData.role_i18n }}</div>
         </div>
       </div>
       <div class="container-three">
-        <div class="clan wn8">{{ responseData.playerInfo.wn8 }}</div>
+        <table>
+          <tr>
+            <td>Overall wn8:</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Personal rating:</td>
+            <td>{{ responseData.playerInfo.globalRating }}</td>
+          </tr>
+          <tr>
+            <td>Winrate:</td>
+            <td>{{ responseData.playerInfo.winRate }}</td>
+          </tr>
+          <tr>
+            <td>Battles:</td>
+            <td>{{ responseData.playerInfo.battles }}</td>
+          </tr>
+          <tr>
+            <td>Battles:</td>
+            <td>{{ responseData.playerInfo.battles }}</td>
+          </tr>
+        </table>
       </div>
     </div>
+
+    <Divider align="left">
+      <span class="p-tag">Graph</span>
+    </Divider>
+
+    <Divider align="left">
+      <span class="p-tag">Tanks Data</span>
+    </Divider>
 
     <DataTable
       v-if="!loading"
@@ -179,12 +209,11 @@ export default {
           draws: null,
           battles: null,
           winRate: null,
-          wn8: null,
+          wn8: null || 0,
         },
       },
     };
   },
-
   dataService: null,
   created() {
     this.dataService = new DataService();
@@ -313,6 +342,15 @@ export default {
 
   .battles {
     max-width: 4rem;
+  }
+
+  .p-divider .p-divider-content {
+    background: none;
+  }
+
+  .p-tag {
+    background: #1472ff;
+    color: #ffffff;
   }
 
   .premium {
@@ -459,57 +497,41 @@ export default {
   }
 }
 
-// .profile {
-//   display: flex;
-//   color: #ffffff;
-//   padding-top: 1rem;
-//   line-height: 2.4rem;
-
-//   .profile-column {
-//     margin-right: 0.8rem;
-//   }
-
-//   .playername {
-//     font-size: 2rem;
-//     font-weight: 700;
-//   }
-
-//   .tag {
-//     color: v-bind('clanData.clan.color');
-//     font-size: 1.8rem;
-//   }
-//   .role {
-//     font-size: 1.2rem;
-//     font-weight: bold;
-//   }
-//   .logo {
-//     width: 128px;
-//     height: 128px;
-//     margin-left: 0.4rem;
-//   }
-// }
-
 .profile {
   display: flex;
   width: 100%;
-
-  .logo {
-    width: 128px;
-    height: 128px;
-  }
+  color: #ffffff;
+  padding-top: 1rem;
 
   .profile-second {
     display: inline-flex;
+    margin-right: 0.8rem;
   }
 
   .container-one {
-    background-color: red;
-    height: 128px;
-    width: 128px;
+    .logo {
+      height: 128px;
+      width: 128px;
+      margin-right: 0.8rem;
+    }
   }
   .container-two {
-    background-color: blue;
     width: 100%;
+
+    .tag {
+      color: v-bind('clanData.clan.color');
+      font-size: 1.8rem;
+    }
+
+    .playername {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .role {
+      font-size: 1.2rem;
+      padding-bottom: -2rem;
+    }
   }
   .container-three {
     background-color: green;

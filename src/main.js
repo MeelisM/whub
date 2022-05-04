@@ -14,7 +14,7 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import ProgressSpinner from 'primevue/progressspinner';
 import Tag from 'primevue/tag';
-
+import Divider from 'primevue/divider';
 const app = createApp(App);
 
 app.use(VueAxios, axios);
@@ -28,5 +28,6 @@ app.component('InputText', InputText);
 app.component('Button', Button);
 app.component('ProgressSpinner', ProgressSpinner);
 app.component('Tag', Tag);
+app.component('Divider', Divider);
 
 app.mount('#app');

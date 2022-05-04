@@ -31,13 +31,22 @@ const getPlayerStats = async function (req, res) {
         expFrag: index.expFrag,
         expSpot: index.expSpot,
         expWinRate: index.expWinRate,
-        avgDef: index.all.dropped_capture_points / index.all.battles,
-        avgDmg: index.all.damage_dealt / index.all.battles,
-        avgSpot: index.all.spotted / index.all.battles,
-        avgWinRate: (index.all.wins / index.all.battles) * 100,
-        avgFrag: index.all.frags / index.all.battles,
-        wn8: 0,
+        avgDef: index.all.dropped_capture_points / index.all.battles || 1,
+        avgDmg: index.all.damage_dealt / index.all.battles || 1,
+        avgSpot: index.all.spotted / index.all.battles || 1,
+        avgWinRate: (index.all.wins / index.all.battles) * 100 || 1,
+
+        avgFrag: index.all.frags / index.all.battles || 1,
+        wn8: '',
       };
+
+      if ((this.avgDef || this.avgDmg || this.avgSpot || this.avgWinRate || this.avgFrag) === null) {
+        avgDef = 0;
+        avgDmg = 0;
+        avgSpot = 0;
+        avgWinRate = 0;
+        avgFrag = 0;
+      }
 
       return wn8PerTank.push(wn8data);
     });
@@ -95,10 +104,11 @@ const getPlayerStats = async function (req, res) {
         losses: playerGeneralStatsResponse.data.data[playerId].statistics.all.losses,
         draws: playerGeneralStatsResponse.data.data[playerId].statistics.all.draws,
         battles: playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
-        winRate:
+        winRate: (
           (playerGeneralStatsResponse.data.data[playerId].statistics.all.wins /
             playerGeneralStatsResponse.data.data[playerId].statistics.all.battles) *
-          100,
+          100
+        ).toFixed(2),
         wn8: (overallWn8.wn8 * 1.1).toFixed(0),
       },
     };
