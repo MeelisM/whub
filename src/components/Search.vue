@@ -33,7 +33,6 @@ export default {
     async getPlayer() {
       this.dataService.getPlayerId(this.searchInput).then((data) => {
         this.userId = data.data[0].account_id;
-        console.log(this.userId);
         this.$router.push(`/player/${this.userId}`);
       });
     },

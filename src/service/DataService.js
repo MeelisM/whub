@@ -7,6 +7,7 @@ const expectedAPI = `${APIurl}/api/expected/`;
 const masteryAPI = `${APIurl}/api/mastery/`;
 const moeAPI = `${APIurl}/api/moe/`;
 const playerAPI = `${APIurl}/api/player/`;
+const graphAPI = `${APIurl}/api/graph/`;
 
 export default class DataService {
   getExpectedValues() {
@@ -28,5 +29,11 @@ export default class DataService {
   getPlayerId(id) {
     const userIdAPI = `https://api.worldoftanks.eu/wot/account/list/?application_id=${applicationId}&search=${id}`;
     return axios.get(userIdAPI).then((response) => response.data);
+  }
+  getGraphValues(id) {
+    return axios.get(`${graphAPI}${id}`).then((response) => response.data);
+  }
+  postGraphValues(data) {
+    return axios.post(graphAPI, data).then((response) => response.data);
   }
 }

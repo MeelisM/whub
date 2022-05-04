@@ -16,6 +16,7 @@ import ProgressSpinner from 'primevue/progressspinner';
 import Tag from 'primevue/tag';
 import Divider from 'primevue/divider';
 import Chart from 'primevue/chart';
+
 const app = createApp(App);
 
 app.use(VueAxios, axios);
