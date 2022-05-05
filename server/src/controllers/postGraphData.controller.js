@@ -17,7 +17,6 @@ module.exports = async function (req, res) {
         { playerId: req.body.playerId },
         {
           $push: { battles: req.body.battles, winrate: req.body.winrate, wn8: req.body.wn8, $slice: -10 },
-          
         }
       );
       res.status(200).json({ message: 'Updated!' });

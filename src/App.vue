@@ -58,13 +58,14 @@ body {
   background-color: rgb(24, 24, 24);
 }
 
+@media only screen and (max-width: 600px) {
+  ///
+}
+
 @media only screen and (min-width: 600px) {
   .main-container {
     flex: 1;
-    margin: 0rem 6rem;
+    margin-left: 2rem;
   }
-}
-
-@media only screen and (max-width: 600px) {
 }
 </style>

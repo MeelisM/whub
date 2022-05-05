@@ -25,21 +25,30 @@
         <div class="container-three">
           <table>
             <tr>
-              <td>asd</td>
+              <td>Line 1 Line 1 Line 1 Line 1</td>
+              <td>Line 1 Line 1 Line 1 Line 1</td>
+              <td>Line 1 Line 1 Line 1 Line 1</td>
+            </tr>
+
+            <tr>
+              <td>Line 2 Line 2 Line 2 Line 2</td>
+              <td>Line 2 Line 2 Line 2 Line 2</td>
+              <td>Line 2 Line 2 Line 2 Line 2</td>
             </tr>
           </table>
         </div>
       </div>
 
       <Divider align="left">
-        <span class="p-tag">Graph</span>
+        <span class="p-tag">Graphs</span>
       </Divider>
 
       <div class="graph-container">
-        <div class="graph">
-          <div>
-            <Chart type="line" :data="multiAxisData" :options="multiAxisOptions" />
-          </div>
+        <div class="graphic">
+          <Chart type="line" :data="multiAxisChart" :options="multiAxisOptions" />
+        </div>
+        <div class="graphic">
+          <Chart type="bar" :data="barChartData" :options="barChartOptions" />
         </div>
       </div>
       <Divider align="left">
@@ -54,7 +63,7 @@
           fill="var(--surface-ground)"
           animationDuration=".5s"
         />
-        <p class="loading-msg">Please wait. Loading data table...</p>
+        <p class="loading-msg">Loading data table...</p>
       </div>
 
       <DataTable
@@ -149,7 +158,47 @@ export default {
   name: 'Player',
   data() {
     return {
-      multiAxisData: {
+      barChartData: {
+        labels: ['Loading data...'],
+        datasets: [
+          {
+            label: 'Vehicles:',
+            backgroundColor: '#42A5F5',
+            data: [65, 59, 80, 81, 56, 55, 40],
+          },
+        ],
+      },
+      barChartOptions: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false,
+            labels: {
+              color: '#495057',
+            },
+          },
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: '#495057',
+            },
+            grid: {
+              color: '#ebedef',
+            },
+          },
+          y: {
+            ticks: {
+              color: '#495057',
+            },
+            grid: {
+              color: '#ebedef',
+            },
+          },
+        },
+      },
+
+      multiAxisChart: {
         labels: [],
         datasets: [
           {
@@ -305,6 +354,11 @@ export default {
       const amountOfTanksArray = tanksAmountPerTier.map(({ amount }) => amount);
       const tierNumberArray = tanksAmountPerTier.map(({ tier }) => tier);
 
+      const tierNumberArrayPrefix = tierNumberArray.map((i) => 'tier ' + i);
+
+      this.barChartData.labels = tierNumberArrayPrefix;
+      this.barChartData.datasets[0].data = amountOfTanksArray;
+
       console.log('AMOUNT OF TANKS', amountOfTanksArray);
       console.log('TIERS OF TANKS', tierNumberArray);
     });
@@ -317,9 +371,9 @@ export default {
     });
 
     this.dataService.getGraphValues(id).then((data) => {
-      this.multiAxisData.labels = data.data[0].battles;
-      this.multiAxisData.datasets[0].data = data.data[0].wn8;
-      this.multiAxisData.datasets[1].data = data.data[0].winrate;
+      this.multiAxisChart.labels = data.data[0].battles;
+      this.multiAxisChart.datasets[0].data = data.data[0].wn8;
+      this.multiAxisChart.datasets[1].data = data.data[0].winrate;
     });
   },
   methods: {
@@ -400,10 +454,6 @@ export default {
 
 .p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
   color: #ffffff;
-}
-
-.p-chart {
-  width: 50%;
 }
 
 .container {
@@ -578,8 +628,28 @@ export default {
     max-width: 80%;
   }
 
+  .graphic:first-child {
+    margin-right: 4rem;
+    margin-left: 2rem;
+  }
+
+  .graphic {
+    position: relative;
+    width: 45%;
+    float: left;
+    margin: auto;
+  }
+
   .short_name {
     color: #ffa726;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .graphic {
+    position: relative;
+    width: 90%;
+    margin-left: 1rem;
   }
 }
 
@@ -587,6 +657,12 @@ export default {
   .container {
     width: 100%;
     padding-bottom: 5rem;
+
+    .graphic {
+      position: relative;
+      width: 95%;
+      margin: 0.3rem;
+    }
 
     .profile-second {
       display: inline-flex;
