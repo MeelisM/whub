@@ -72,9 +72,10 @@ const getPlayerStats = async function (req, res) {
         clanId: playerGeneralStatsResponse.data.data[playerId].clan_id,
         globalRating: playerGeneralStatsResponse.data.data[playerId].global_rating,
         spotsTotal: playerGeneralStatsResponse.data.data[playerId].statistics.all.spotted,
-        spotsAvg:
+        spotsAvg: (
           playerGeneralStatsResponse.data.data[playerId].statistics.all.spotted /
-          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles
+        ).toFixed(2),
         assistedAverage: playerGeneralStatsResponse.data.data[playerId].statistics.all.avg_damage_assisted,
         hitsTotal: playerGeneralStatsResponse.data.data[playerId].statistics.all.hits,
         hitsPercent: playerGeneralStatsResponse.data.data[playerId].statistics.all.hits_percents,

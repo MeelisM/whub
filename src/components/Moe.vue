@@ -1,4 +1,13 @@
 <template>
+  <div v-if="loading" class="spinner-container">
+    <ProgressSpinner
+      class="spinner"
+      style="width: 6rem; height: 6rem"
+      strokeWidth="5"
+      fill="var(--surface-ground)"
+      animationDuration=".5s"
+    />
+  </div>
   <div class="container">
     <DataTable
       :value="tableData"
@@ -16,6 +25,13 @@
           <img :src="data.images.contour_icon" :alt="data.images.contour_icon" />
         </template>
       </Column>
+      <Column class="field tank-type" field="nation" header="Class">
+        <template #body="slotProps">
+          <div :class="slotProps.data">
+            <img class="tank-type" :src="'/type/' + slotProps.data.type + '.png'" :alt="slotProps.data.type" />
+          </div>
+        </template>
+      </Column>
       <Column field="short_name" header="Name" :sortable="true">
         <template #body="slotProps">
           <div :class="checkIfPremium(slotProps.data)">
@@ -23,7 +39,13 @@
           </div>
         </template>
       </Column>
-      <Column field="nation" header="Nation" :sortable="true" class="field nation"></Column>
+      <Column class="field nation" field="nation" header="Nation">
+        <template #body="slotProps">
+          <div :class="slotProps.data">
+            <img class="nation-icon" :src="'/' + slotProps.data.nation + '.png'" :alt="slotProps.data.nation" />
+          </div>
+        </template>
+      </Column>
       <Column field="tier" header="Tier" :sortable="true" class="field tier"></Column>
       <Column field="marks.65" header="65%" :sortable="true"></Column>
       <Column field="marks.85" header="85%" :sortable="true"></Column>
@@ -41,6 +63,7 @@ export default {
   data() {
     return {
       tableData: null,
+      loading: false,
     };
   },
   dataService: null,
@@ -48,7 +71,10 @@ export default {
     this.dataService = new DataService();
   },
   mounted() {
-    this.dataService.getMoeValues().then((data) => (this.tableData = data));
+    this.loading = true;
+    this.dataService.getMoeValues().then((data) => {
+      (this.tableData = data), (this.loading = false);
+    });
   },
 
   methods: {
@@ -62,28 +88,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@media only screen and (min-width: 600px) {
-  .container {
-    margin: auto;
-    width: 70%;
-  }
-
-  .short_name {
-    color: #ffa726;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .container {
-    width: 100%;
-  }
-}
-
-// .tier,
-// .icon,
-// .nation {
-//     width: 120px;
-// }
-</style>
