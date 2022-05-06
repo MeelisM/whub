@@ -35,7 +35,6 @@ const getPlayerStats = async function (req, res) {
         avgDmg: index.all.damage_dealt / index.all.battles || 1,
         avgSpot: index.all.spotted / index.all.battles || 1,
         avgWinRate: (index.all.wins / index.all.battles) * 100 || 1,
-
         avgFrag: index.all.frags / index.all.battles || 1,
         wn8: '',
       };
@@ -84,28 +83,50 @@ const getPlayerStats = async function (req, res) {
         xpTotal: playerGeneralStatsResponse.data.data[playerId].statistics.all.xp,
         blockedAverage: playerGeneralStatsResponse.data.data[playerId].statistics.all.avg_damage_blocked,
         capturePoints: playerGeneralStatsResponse.data.data[playerId].statistics.all.capture_points,
+        captureAvg: (
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.capture_points /
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles
+        ).toFixed(2),
         defensePoints: playerGeneralStatsResponse.data.data[playerId].statistics.all.dropped_capture_points,
-        defenseAvg:
+        defenseAvg: (
           playerGeneralStatsResponse.data.data[playerId].statistics.all.dropped_capture_points /
-          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles
+        ).toFixed(2),
         survivedBattles: playerGeneralStatsResponse.data.data[playerId].statistics.all.survived_battles,
         kills: playerGeneralStatsResponse.data.data[playerId].statistics.all.frags,
         killsMax: playerGeneralStatsResponse.data.data[playerId].statistics.all.max_frags,
-        killsAvg:
+        killsAvg: (
           playerGeneralStatsResponse.data.data[playerId].statistics.all.frags /
-          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles
+        ).toFixed(2),
         damageDealt: playerGeneralStatsResponse.data.data[playerId].statistics.all.damage_dealt,
         damageReceived: playerGeneralStatsResponse.data.data[playerId].statistics.all.damage_received,
         damageMax: playerGeneralStatsResponse.data.data[playerId].statistics.all.max_damage,
-        damageAvg:
+        damageAvg: (
           playerGeneralStatsResponse.data.data[playerId].statistics.all.damage_dealt /
-          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
+          playerGeneralStatsResponse.data.data[playerId].statistics.all.battles
+        ).toFixed(2),
         wins: playerGeneralStatsResponse.data.data[playerId].statistics.all.wins,
         losses: playerGeneralStatsResponse.data.data[playerId].statistics.all.losses,
         draws: playerGeneralStatsResponse.data.data[playerId].statistics.all.draws,
         battles: playerGeneralStatsResponse.data.data[playerId].statistics.all.battles,
+        lossRate: (
+          (playerGeneralStatsResponse.data.data[playerId].statistics.all.losses /
+            playerGeneralStatsResponse.data.data[playerId].statistics.all.battles) *
+          100
+        ).toFixed(2),
+        drawRate: (
+          (playerGeneralStatsResponse.data.data[playerId].statistics.all.draws /
+            playerGeneralStatsResponse.data.data[playerId].statistics.all.battles) *
+          100
+        ).toFixed(2),
         winRate: (
           (playerGeneralStatsResponse.data.data[playerId].statistics.all.wins /
+            playerGeneralStatsResponse.data.data[playerId].statistics.all.battles) *
+          100
+        ).toFixed(2),
+        survivalRate: (
+          (playerGeneralStatsResponse.data.data[playerId].statistics.all.survived_battles /
             playerGeneralStatsResponse.data.data[playerId].statistics.all.battles) *
           100
         ).toFixed(2),

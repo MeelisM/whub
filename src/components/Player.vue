@@ -4,42 +4,102 @@
       <div class="profile">
         <div class="profile-second">
           <div class="container-one">
-            <img class="clan logo" :src="clanData.clan.emblems.x195.portal" alt="Clan logo" />
+            <img class="clan logo" :src="this.clanData.clan.emblems.x195.portal" alt="Clan logo" />
           </div>
           <div class="container-two">
-            <div class="clan playername">{{ responseData.playerInfo.username }}</div>
-            <div class="clan tag">[{{ clanData.clan.tag }}]</div>
+            <div class="clan playername">{{ this.responseData.playerInfo.username }}</div>
+            <div class="clan tag">[{{ this.clanData.clan.tag }}]</div>
             <div class="clan joined">
               Joined:
               {{
-                new Date(clanData.joined_at * 1000).toLocaleDateString('en-US', {
+                new Date(this.clanData.joined_at * 1000).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
                 })
               }}
             </div>
-            <div class="clan role">{{ clanData.role_i18n }}</div>
+            <div class="clan role">{{ this.clanData.role_i18n }}</div>
           </div>
+        </div>
+
+        <Divider class="general-stats">
+          <span class="p-tag">General Stats</span>
+        </Divider>
+        <div class="container-three">
+          <table>
+            <tbody>
+              <tr>
+                <td>WN8</td>
+                <td>{{ this.responseData.playerInfo.wn8 }}</td>
+              </tr>
+              <tr>
+                <td>RATING</td>
+                <td>{{ this.responseData.playerInfo.globalRating }}</td>
+              </tr>
+              <tr>
+                <td>BATTLES</td>
+                <td>{{ this.responseData.playerInfo.battles }}</td>
+              </tr>
+              <tr>
+                <td>MAX FRAGS</td>
+                <td>{{ this.responseData.playerInfo.killsMax }}</td>
+              </tr>
+              <tr>
+                <td>DAMAGE</td>
+                <td>567567576</td>
+              </tr>
+              <tr>
+                <td>FRAGS</td>
+                <td>3456567567</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="container-three">
           <table>
-            <tr>
-              <td>Line 1 Line 1 Line 1 Line 1</td>
-              <td>Line 1 Line 1 Line 1 Line 1</td>
-              <td>Line 1 Line 1 Line 1 Line 1</td>
-            </tr>
-
-            <tr>
-              <td>Line 2 Line 2 Line 2 Line 2</td>
-              <td>Line 2 Line 2 Line 2 Line 2</td>
-              <td>Line 2 Line 2 Line 2 Line 2</td>
-            </tr>
+            <tbody>
+              <tr>
+                <td>WINS</td>
+                <td>{{ this.responseData.playerInfo.wins }}</td>
+                <td>{{ this.responseData.playerInfo.winRate }}%</td>
+              </tr>
+              <tr>
+                <td>LOSSES</td>
+                <td>{{ this.responseData.playerInfo.losses }}</td>
+                <td>{{ this.responseData.playerInfo.lossRate }}%</td>
+              </tr>
+              <tr>
+                <td>DRAWS</td>
+                <td>{{ this.responseData.playerInfo.draws }}</td>
+                <td>{{ this.responseData.playerInfo.drawRate }}%</td>
+              </tr>
+              <tr>
+                <td>DAMAGE</td>
+                <td>{{ this.responseData.playerInfo.damageDealt }}</td>
+                <td>{{ this.responseData.playerInfo.damageAvg }}</td>
+              </tr>
+              <tr>
+                <td>FRAGS</td>
+                <td>{{ this.responseData.playerInfo.kills }}</td>
+                <td>{{ this.responseData.playerInfo.killsAvg }}</td>
+              </tr>
+              <tr>
+                <td>CAP</td>
+                <td>{{ this.responseData.playerInfo.capturePoints }}</td>
+                <td>{{ this.responseData.playerInfo.captureAvg }}</td>
+              </tr>
+              <tr>
+                <td>DECAP</td>
+                <td>{{ this.responseData.playerInfo.defensePoints }}</td>
+                <td>{{ this.responseData.playerInfo.defenseAvg }}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
 
-      <Divider align="left">
+      <Divider>
         <span class="p-tag">Graphs</span>
       </Divider>
 
@@ -51,11 +111,11 @@
           <Chart type="bar" :data="barChartData" :options="barChartOptions" />
         </div>
       </div>
-      <Divider align="left">
-        <span class="p-tag">Tanks Data</span>
+      <Divider>
+        <span class="p-tag tanks">Tanks Data</span>
       </Divider>
 
-      <div v-if="loading" class="spinner-container">
+      <div v-if="loading" class="spinner-container-player">
         <ProgressSpinner
           class="spinner"
           style="width: 6rem; height: 6rem"
@@ -105,6 +165,7 @@
             </div>
           </template>
         </Column>
+        <Column field="tier" header="Tier" :sortable="true" class="field tier"></Column>
         <Column class="field" field="wn8" header="WN8" :sortable="true">
           <template #body="slotProps">
             <div>
@@ -153,6 +214,7 @@
 
 <script>
 import DataService from '../service/DataService';
+import Search from './Search.vue';
 
 export default {
   name: 'Player',
@@ -197,7 +259,6 @@ export default {
           },
         },
       },
-
       multiAxisChart: {
         labels: [],
         datasets: [
@@ -315,7 +376,9 @@ export default {
           draws: null,
           battles: null,
           winRate: null,
+          survivalRate: null,
           wn8: null || 0,
+          lossRate: null,
         },
       },
     };
@@ -327,22 +390,17 @@ export default {
   mounted() {
     this.loading = true;
     const id = this.$route.params.id;
-
     this.dataService.getPlayerValues(id).then((data) => {
       (this.responseData = data), (this.loading = false);
-
       const graphData = {
         playerId: this.responseData.playerInfo.accountId,
         battles: this.responseData.playerInfo.battles,
         wn8: this.responseData.playerInfo.wn8,
         winrate: this.responseData.playerInfo.winRate,
       };
-
       this.dataService.postGraphValues(graphData);
-
       ////////////////////////////////////////////////////////////
       // TIER STATISTICS
-
       const tanksData = this.responseData.tankStats;
       const tanksAmountPerTier = Object.entries(
         tanksData.reduce((acc, { tier }) => {
@@ -350,26 +408,43 @@ export default {
           return acc;
         }, {})
       ).map(([key, value]) => ({ tier: key, amount: value }));
-
       const amountOfTanksArray = tanksAmountPerTier.map(({ amount }) => amount);
       const tierNumberArray = tanksAmountPerTier.map(({ tier }) => tier);
-
       const tierNumberArrayPrefix = tierNumberArray.map((i) => 'tier ' + i);
-
       this.barChartData.labels = tierNumberArrayPrefix;
       this.barChartData.datasets[0].data = amountOfTanksArray;
-
       console.log('AMOUNT OF TANKS', amountOfTanksArray);
       console.log('TIERS OF TANKS', tierNumberArray);
     });
-
     //
     ////////////////////////////////////////////////////////////
-
     this.dataService.getPlayerClan(id).then((data) => {
-      this.clanData = data.data[id];
+      if (data != null) {
+        this.clanData = data.data[id];
+      } else {
+        this.clanData = {
+          clan: {
+            name: 'NO CLAN',
+            color: '#dedede',
+            created_at: null,
+            tag: 'NOCLAN',
+            emblems: {
+              x64: {
+                portal: '',
+              },
+              x195: {
+                portal: '/ussr.png',
+              },
+              x256: {
+                wowp: '',
+              },
+            },
+          },
+          role_i18n: 'A Player',
+          joined_at: '',
+        };
+      }
     });
-
     this.dataService.getGraphValues(id).then((data) => {
       this.multiAxisChart.labels = data.data[0].battles;
       this.multiAxisChart.datasets[0].data = data.data[0].wn8;
@@ -407,7 +482,6 @@ export default {
         },
       ];
     },
-
     winRateColors(data) {
       return [
         {
@@ -425,66 +499,21 @@ export default {
       ];
     },
   },
+  components: { Search },
 };
 </script>
 
 <style lang="scss">
-.p-datatable .p-column-header-content {
-  justify-content: center;
-}
-
-.p-datatable .p-datatable-tbody > tr > td {
-  text-align: center;
-  border: 1px solid #484848;
-}
-
-.p-datatable .p-datatable-thead > tr > th {
-  border: none;
-}
-
-.p-datatable .p-sortable-column.p-highlight {
-  background: #4891ff;
-  color: #ffffff;
-}
-
-.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-  background: #1472ff;
-  color: #ffffff;
-}
-
-.p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
-  color: #ffffff;
-}
-
-.container {
-  margin: auto;
-  width: 80%;
-
+.main-container {
   .loading-msg {
-    color: #ffffff;
-  }
-
-  .clan-logo {
-    width: 128px;
-    height: 128px;
-    margin-right: 2rem;
-  }
-
-  .nation-icon {
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
-    border: solid 1px #484848;
-  }
-
-  .tank-type {
-    height: 28px;
-    width: 24px;
+    color: #dedede;
   }
 
   .img-mastery-none {
     display: none;
   }
 
-  .spinner-container {
+  .spinner-container-player {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -495,23 +524,6 @@ export default {
     max-width: 4rem;
   }
 
-  .p-divider .p-divider-content {
-    background: none;
-  }
-
-  .p-tag {
-    background: #1472ff;
-    color: #ffffff;
-  }
-
-  .premium {
-    color: #ffa726;
-  }
-
-  .p-datatable .p-datatable-loading-icon {
-    color: #ffa726;
-  }
-
   // *****
   // Unable to select multiple slotProps classes at once. ('wn8- ' and 'wr- ')
   // It breaks coloring for both.
@@ -519,118 +531,110 @@ export default {
   // *****
   .wn8-1 {
     background-color: #401070;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wn8-2 {
     background-color: #793db6;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wn8-3 {
     background-color: #3972c6;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wn8-4 {
     background-color: #4099bf;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wn8-5 {
     background-color: #4d7326;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wn8-6 {
     background-color: #849b24;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wn8-7 {
     background-color: #ccb800;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wn8-8 {
     background-color: #cc7a00;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wn8-9 {
     background-color: #cd3333;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wn8-10 {
     background-color: #930d0d;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wr-1 {
     background-color: #401070;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wr-2 {
     background-color: #793db6;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wr-3 {
     background-color: #3972c6;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wr-4 {
     background-color: #4099bf;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wr-5 {
     background-color: #4d7326;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wr-6 {
     background-color: #849b24;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wr-7 {
     background-color: #ccb800;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wr-8 {
     background-color: #cc7a00;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wr-9 {
     background-color: #cd3333;
-    color: #ffffff;
+    color: #dedede;
   }
 
   .wr-10 {
     background-color: #930d0d;
-    color: #ffffff;
-  }
-
-  .p-tag {
-    min-width: 4rem;
+    color: #dedede;
   }
 }
 
 @media only screen and (min-width: 600px) {
-  .container {
-    margin: auto;
-    max-width: 80%;
-  }
-
   .graphic:first-child {
     margin-right: 4rem;
     margin-left: 2rem;
+    margin-bottom: 2rem;
   }
 
   .graphic {
@@ -645,32 +649,25 @@ export default {
   }
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 950px) {
   .graphic {
     position: relative;
-    width: 90%;
-    margin-left: 1rem;
+    width: 95%;
+    margin: 0.3rem;
   }
-}
 
-@media only screen and (max-width: 600px) {
-  .container {
+  .profile-second {
+    display: inline-flex;
+  }
+
+  .profile {
+    flex-direction: column;
     width: 100%;
-    padding-bottom: 5rem;
+  }
 
-    .graphic {
-      position: relative;
-      width: 95%;
-      margin: 0.3rem;
-    }
-
-    .profile-second {
-      display: inline-flex;
-    }
-
-    .profile {
-      flex-direction: column;
-      width: 100%;
+  .container-three {
+    td {
+      width: 50vw;
     }
   }
 }
@@ -678,7 +675,7 @@ export default {
 .profile {
   display: flex;
   width: 100%;
-  color: #ffffff;
+  color: #dedede;
   padding-top: 1rem;
 
   .profile-second {
@@ -688,8 +685,8 @@ export default {
 
   .container-one {
     .logo {
-      height: 128px;
-      width: 128px;
+      height: 150px;
+      width: 150px;
       margin-right: 0.8rem;
     }
   }
@@ -705,20 +702,13 @@ export default {
       font-size: 2rem;
       font-weight: 700;
     }
+  }
 
-    .role {
-      font-size: 1.2rem;
-      padding-bottom: -2rem;
+  .container-three {
+    margin-left: 2rem;
+    td {
+      padding: 0rem 1rem 0rem 1rem;
     }
   }
-  // .container-three {
-  //   width: 50%;
-  // }
 }
-
-// .tier,
-// .icon,
-// .nation {
-//     width: 120px;
-// }
 </style>

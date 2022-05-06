@@ -15,11 +15,6 @@ const router = createRouter({
       component: () => import('../views/ExpectedView.vue'),
     },
     {
-      path: '/leaderboard',
-      name: 'leaderboard',
-      component: () => import('../views/LeaderboardView.vue'),
-    },
-    {
       path: '/moe',
       name: 'moe',
       component: () => import('../views/MoeView.vue'),
