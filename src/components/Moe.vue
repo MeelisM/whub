@@ -1,82 +1,84 @@
 <template>
-    <div class="container">
-        <DataTable :value="tableData" class="p-datatable-sm" responsiveLayout="scroll" :paginator="true" :rows="20"
-            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-            :rowsPerPageOptions="[10, 20, 50]" sortField="marks.95" :sortOrder="-1">
-            <Column class="field icon">
-                <template #body="{ data }">
-                    <img :src="data.images.contour_icon" :alt="data.images.contour_icon">
-                </template>
-            </Column>
-            <Column field="short_name" header="Name" :sortable="true">
-                <template #body="slotProps">
-                    <div :class="checkIfPremium(slotProps.data)">
-                        {{ slotProps.data.short_name }}
-                    </div>
-                </template>
-            </Column>
-            <Column field="nation" header="Nation" :sortable="true" class="field nation"></Column>
-            <Column field="tier" header="Tier" :sortable="true" class="field tier"></Column>
-            <Column field="marks.65" header="65%" :sortable="true"></Column>
-            <Column field="marks.85" header="85%" :sortable="true"></Column>
-            <Column field="marks.95" header="95%" :sortable="true"></Column>
-            <Column field="marks.100" header="100%" :sortable="true"></Column>
-        </DataTable>
-    </div>
+  <div class="container">
+    <DataTable
+      :value="tableData"
+      class="p-datatable-sm"
+      responsiveLayout="scroll"
+      :paginator="true"
+      :rows="10"
+      paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+      :rowsPerPageOptions="[10, 20, 50]"
+      sortField="marks.95"
+      :sortOrder="-1"
+    >
+      <Column class="field icon">
+        <template #body="{ data }">
+          <img :src="data.images.contour_icon" :alt="data.images.contour_icon" />
+        </template>
+      </Column>
+      <Column field="short_name" header="Name" :sortable="true">
+        <template #body="slotProps">
+          <div :class="checkIfPremium(slotProps.data)">
+            {{ slotProps.data.short_name }}
+          </div>
+        </template>
+      </Column>
+      <Column field="nation" header="Nation" :sortable="true" class="field nation"></Column>
+      <Column field="tier" header="Tier" :sortable="true" class="field tier"></Column>
+      <Column field="marks.65" header="65%" :sortable="true"></Column>
+      <Column field="marks.85" header="85%" :sortable="true"></Column>
+      <Column field="marks.95" header="95%" :sortable="true"></Column>
+      <Column field="marks.100" header="100%" :sortable="true"></Column>
+    </DataTable>
+  </div>
 </template>
 
 <script>
-import DataService from "../service/DataService";
+import DataService from '../service/DataService';
 
 export default {
-    name: 'Moe',
-    data() {
-        return {
-            tableData: null,
-        }
-    },
-    dataService: null,
-    created() {
-        this.dataService = new DataService();
-    },
-    mounted() {
-        this.dataService.getMoeValues().then(data => this.tableData = data);
-    },
+  name: 'Moe',
+  data() {
+    return {
+      tableData: null,
+    };
+  },
+  dataService: null,
+  created() {
+    this.dataService = new DataService();
+  },
+  mounted() {
+    this.dataService.getMoeValues().then((data) => (this.tableData = data));
+  },
 
-    methods: {
-        checkIfPremium(data) {
-            return [
-                {
-                    'short_name': data.is_premium == true
-
-                }
-            ]
-        }
-    }
-}
+  methods: {
+    checkIfPremium(data) {
+      return [
+        {
+          short_name: data.is_premium == true,
+        },
+      ];
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 @media only screen and (min-width: 600px) {
-    .container {
-        margin: auto;
-        width: 70%;
+  .container {
+    margin: auto;
+    width: 70%;
+  }
 
-    }
-
-    .short_name {
-        color: #FFA726;
-    }
+  .short_name {
+    color: #ffa726;
+  }
 }
 
-
-
-
 @media only screen and (max-width: 600px) {
-    .container {
-        width: 100%;
-
-    }
+  .container {
+    width: 100%;
+  }
 }
 
 // .tier,

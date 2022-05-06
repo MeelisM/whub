@@ -8,12 +8,7 @@
             <span class="link-text">HOME</span>
           </router-link>
         </li>
-        <li class="nav-item">
-          <router-link to="/leaderboard" class="nav-link">
-            <span class="material-icons">leaderboard</span>
-            <span class="link-text">LEADERBOARD</span>
-          </router-link>
-        </li>
+
         <li class="nav-item">
           <router-link to="/mastery" class="nav-link">
             <span class="material-icons">star</span>
