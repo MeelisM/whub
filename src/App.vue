@@ -3,7 +3,7 @@
     <div class="sidebar-container">
       <SideBar />
     </div>
-    <div class="main-container">
+    <div class="content-container">
       <RouterView />
     </div>
   </div>
@@ -24,8 +24,8 @@ export default {
 <style lang="scss">
 :root {
   font: 14px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  --text-primary: black;
-  --text-secondary: grey;
+  --text-dark: #1472ff;
+  --text-light: #dedede;
   --bg-dark: #010312;
   --bg-light: rgb(223, 223, 223);
 
@@ -70,6 +70,10 @@ body {
     }
   }
 
+  .short_name {
+    color: #ffa726;
+  }
+
   .tank-type {
     height: 28px;
     width: 24px;
@@ -80,13 +84,10 @@ body {
   }
 
   .p-tag {
-    background: #1472ff;
+    background: var(--text-dark);
+    display: inline-flex;
     color: #ffffff;
     min-width: 4rem;
-
-    &.general {
-      display: none;
-    }
   }
 
   .p-datatable .p-column-header-content {
@@ -106,9 +107,12 @@ body {
     background: #4891ff;
     color: #ffffff;
   }
+  body .p-datatable .p-sortable-column.p-highlight {
+    background: var(--text-dark);
+  }
 
   .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-    background: #1472ff;
+    background: var(--text-dark);
     color: #ffffff;
   }
 
@@ -126,10 +130,6 @@ body {
   .container {
     width: 100%;
     padding-bottom: 5rem;
-
-    .general-stats {
-      display: flex;
-    }
   }
 }
 @media only screen and (min-width: 600px) {
@@ -137,10 +137,7 @@ body {
     width: 80%;
     margin: auto;
 
-    .general-stats {
-      display: none;
-    }
-    .main-container {
+    .content-container {
       margin-left: 2rem;
     }
   }

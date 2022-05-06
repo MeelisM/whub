@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="main-container">
-      <div class="profile">
+      <div v-if="!loading" class="profile">
         <div class="profile-second">
           <div class="container-one">
             <img class="clan logo" :src="this.clanData.clan.emblems.x195.portal" alt="Clan logo" />
@@ -23,79 +23,87 @@
           </div>
         </div>
 
-        <Divider class="general-stats">
-          <span class="p-tag">General Stats</span>
-        </Divider>
-        <div class="container-three">
-          <table>
-            <tbody>
-              <tr>
-                <td>WN8</td>
-                <td>{{ this.responseData.playerInfo.wn8 }}</td>
-              </tr>
-              <tr>
-                <td>RATING</td>
-                <td>{{ this.responseData.playerInfo.globalRating }}</td>
-              </tr>
-              <tr>
-                <td>BATTLES</td>
-                <td>{{ this.responseData.playerInfo.battles }}</td>
-              </tr>
-              <tr>
-                <td>MAX FRAGS</td>
-                <td>{{ this.responseData.playerInfo.killsMax }}</td>
-              </tr>
-              <tr>
-                <td>DAMAGE</td>
-                <td>567567576</td>
-              </tr>
-              <tr>
-                <td>FRAGS</td>
-                <td>3456567567</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="container-three">
-          <table>
-            <tbody>
-              <tr>
-                <td>WINS</td>
-                <td>{{ this.responseData.playerInfo.wins }}</td>
-                <td>{{ this.responseData.playerInfo.winRate }}%</td>
-              </tr>
-              <tr>
-                <td>LOSSES</td>
-                <td>{{ this.responseData.playerInfo.losses }}</td>
-                <td>{{ this.responseData.playerInfo.lossRate }}%</td>
-              </tr>
-              <tr>
-                <td>DRAWS</td>
-                <td>{{ this.responseData.playerInfo.draws }}</td>
-                <td>{{ this.responseData.playerInfo.drawRate }}%</td>
-              </tr>
-              <tr>
-                <td>DAMAGE</td>
-                <td>{{ this.responseData.playerInfo.damageDealt }}</td>
-                <td>{{ this.responseData.playerInfo.damageAvg }}</td>
-              </tr>
-              <tr>
-                <td>FRAGS</td>
-                <td>{{ this.responseData.playerInfo.kills }}</td>
-                <td>{{ this.responseData.playerInfo.killsAvg }}</td>
-              </tr>
-              <tr>
-                <td>CAP</td>
-                <td>{{ this.responseData.playerInfo.capturePoints }}</td>
-                <td>{{ this.responseData.playerInfo.captureAvg }}</td>
-              </tr>
-              <tr>
-                <td>DECAP</td>
-                <td>{{ this.responseData.playerInfo.defensePoints }}</td>
-                <td>{{ this.responseData.playerInfo.defenseAvg }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="general-stats-container">
+          <div class="container-final">
+            <table class="profile-table">
+              <tbody>
+                <tr>
+                  <td>WN8</td>
+                  <td>{{ this.responseData.playerInfo.wn8 }}</td>
+                </tr>
+                <tr>
+                  <td>RATING</td>
+                  <td>{{ this.responseData.playerInfo.globalRating }}</td>
+                </tr>
+                <tr>
+                  <td>BATTLES</td>
+                  <td>{{ this.responseData.playerInfo.battles }}</td>
+                </tr>
+                <tr>
+                  <td>MAX KILLS</td>
+                  <td>{{ this.responseData.playerInfo.killsMax }}</td>
+                </tr>
+                <tr>
+                  <td>SURVIVED</td>
+                  <td>{{ this.responseData.playerInfo.survivalRate }}%</td>
+                </tr>
+                <tr>
+                  <td>HITS</td>
+                  <td>{{ this.responseData.playerInfo.hitsPercent }}%</td>
+                </tr>
+                <tr>
+                  <td>SURVIVED</td>
+                  <td>{{ this.responseData.playerInfo.survivalRate }}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="container-final">
+            <table>
+              <tbody>
+                <tr>
+                  <td>WINS</td>
+                  <td>{{ this.responseData.playerInfo.wins }}</td>
+                  <td>{{ this.responseData.playerInfo.winRate }}%</td>
+                </tr>
+                <tr>
+                  <td>LOSSES</td>
+                  <td>{{ this.responseData.playerInfo.losses }}</td>
+                  <td>{{ this.responseData.playerInfo.lossRate }}%</td>
+                </tr>
+                <tr>
+                  <td>DRAWS</td>
+                  <td>{{ this.responseData.playerInfo.draws }}</td>
+                  <td>{{ this.responseData.playerInfo.drawRate }}%</td>
+                </tr>
+                <tr>
+                  <td>DAMAGE</td>
+                  <td>{{ this.responseData.playerInfo.damageDealt }}</td>
+                  <td>{{ this.responseData.playerInfo.damageAvg }}</td>
+                </tr>
+                <tr>
+                  <td>KILLS</td>
+                  <td>{{ this.responseData.playerInfo.kills }}</td>
+                  <td>{{ this.responseData.playerInfo.killsAvg }}</td>
+                </tr>
+                <tr>
+                  <td>SPOTS</td>
+                  <td>{{ this.responseData.playerInfo.spotsTotal }}</td>
+                  <td>{{ this.responseData.playerInfo.spotsAvg }}</td>
+                </tr>
+                <tr>
+                  <td>CAP</td>
+                  <td>{{ this.responseData.playerInfo.capturePoints }}</td>
+                  <td>{{ this.responseData.playerInfo.captureAvg }}</td>
+                </tr>
+                <tr>
+                  <td>DECAP</td>
+                  <td>{{ this.responseData.playerInfo.defensePoints }}</td>
+                  <td>{{ this.responseData.playerInfo.defenseAvg }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -214,7 +222,6 @@
 
 <script>
 import DataService from '../service/DataService';
-import Search from './Search.vue';
 
 export default {
   name: 'Player',
@@ -224,8 +231,8 @@ export default {
         labels: ['Loading data...'],
         datasets: [
           {
-            label: 'Vehicles:',
-            backgroundColor: '#42A5F5',
+            label: 'Vehicles',
+            backgroundColor: '#1472ff',
             data: [65, 59, 80, 81, 56, 55, 40],
           },
         ],
@@ -413,8 +420,6 @@ export default {
       const tierNumberArrayPrefix = tierNumberArray.map((i) => 'tier ' + i);
       this.barChartData.labels = tierNumberArrayPrefix;
       this.barChartData.datasets[0].data = amountOfTanksArray;
-      console.log('AMOUNT OF TANKS', amountOfTanksArray);
-      console.log('TIERS OF TANKS', tierNumberArray);
     });
     //
     ////////////////////////////////////////////////////////////
@@ -499,14 +504,20 @@ export default {
       ];
     },
   },
-  components: { Search },
 };
 </script>
 
 <style lang="scss">
 .main-container {
+  .general-stats-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 50%;
+  }
+
   .loading-msg {
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .img-mastery-none {
@@ -531,121 +542,102 @@ export default {
   // *****
   .wn8-1 {
     background-color: #401070;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wn8-2 {
     background-color: #793db6;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wn8-3 {
     background-color: #3972c6;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wn8-4 {
     background-color: #4099bf;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wn8-5 {
     background-color: #4d7326;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wn8-6 {
     background-color: #849b24;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wn8-7 {
     background-color: #ccb800;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wn8-8 {
     background-color: #cc7a00;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wn8-9 {
     background-color: #cd3333;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wn8-10 {
     background-color: #930d0d;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wr-1 {
     background-color: #401070;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wr-2 {
     background-color: #793db6;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wr-3 {
     background-color: #3972c6;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wr-4 {
     background-color: #4099bf;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wr-5 {
     background-color: #4d7326;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wr-6 {
     background-color: #849b24;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wr-7 {
     background-color: #ccb800;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wr-8 {
     background-color: #cc7a00;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wr-9 {
     background-color: #cd3333;
-    color: #dedede;
+    color: var(--text-light);
   }
 
   .wr-10 {
     background-color: #930d0d;
-    color: #dedede;
-  }
-}
-
-@media only screen and (min-width: 600px) {
-  .graphic:first-child {
-    margin-right: 4rem;
-    margin-left: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .graphic {
-    position: relative;
-    width: 45%;
-    float: left;
-    margin: auto;
-  }
-
-  .short_name {
-    color: #ffa726;
+    color: var(--text-light);
   }
 }
 
@@ -656,31 +648,29 @@ export default {
     margin: 0.3rem;
   }
 
-  .profile-second {
-    display: inline-flex;
-  }
-
   .profile {
     flex-direction: column;
     width: 100%;
-  }
-
-  .container-three {
-    td {
-      width: 50vw;
-    }
   }
 }
 
 .profile {
   display: flex;
-  width: 100%;
-  color: #dedede;
+  width: 70%;
+  color: var(--text-light);
   padding-top: 1rem;
 
   .profile-second {
     display: inline-flex;
     margin-right: 0.8rem;
+    width: 50%;
+  }
+
+  .general-stats-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
   }
 
   .container-one {
@@ -704,11 +694,43 @@ export default {
     }
   }
 
-  .container-three {
+  .container-final {
     margin-left: 2rem;
+
     td {
       padding: 0rem 1rem 0rem 1rem;
+      &:first-child {
+        font-weight: 700;
+        text-align: right;
+        border-right: solid 3px var(--text-dark);
+      }
+      &:nth-child(n + 2) {
+        font-weight: 600;
+      }
     }
+  }
+}
+
+@media only screen and (min-width: 850px) {
+  .graphic:first-child {
+    margin-right: 4rem;
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .graphic {
+    position: relative;
+    width: 45%;
+    float: left;
+    margin: auto;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .graphic {
+    position: relative;
+    width: 95%;
+    margin: auto;
   }
 }
 </style>
