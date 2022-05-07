@@ -23,14 +23,14 @@ export default {
 
 <style lang="scss">
 :root {
-  font: 14px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font: 14px 'Segoe UI', sans-serif;
   --text-dark: #1472ff;
   --text-light: #dedede;
-  --bg-dark: #010312;
-  --bg-light: rgb(223, 223, 223);
+  --bg-dark: #323232;
+  --bg-light: #1472ff;
 
   // Firefox scrollbar
-  scrollbar-color: var(--bg-dark) var(--bg-light);
+  scrollbar-color: var(--bg-light) var(--bg-dark);
   scrollbar-width: thin;
 
   // Other browsers scrollbar
@@ -39,11 +39,11 @@ export default {
   }
 
   body::-webkit-scrollbar-track {
-    background: var(--bg-dark);
+    background: var(--bg-light);
   }
 
   body::-webkit-scrollbar-thumb {
-    background: var(--bg-light);
+    background: var(--bg-dark);
   }
 }
 
