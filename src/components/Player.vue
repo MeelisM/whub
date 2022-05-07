@@ -1,113 +1,69 @@
 <template>
   <div class="container">
     <div class="main-container">
-      <div v-if="!loading" class="profile">
-        <div class="profile-second">
-          <div class="container-one">
-            <img class="clan logo" :src="this.clanData.clan.emblems.x195.portal" alt="Clan logo" />
-          </div>
-          <div class="container-two">
-            <div class="clan playername">{{ this.responseData.playerInfo.username }}</div>
-            <div class="clan tag">[{{ this.clanData.clan.tag }}]</div>
-            <div class="clan joined">
-              Joined:
-              {{
-                new Date(this.clanData.joined_at * 1000).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })
-              }}
-            </div>
-            <div class="clan role">{{ this.clanData.role_i18n }}</div>
+      <div class="profile-container">
+        <div class="info-box one">
+          <div class="table-user">
+            <table>
+              <tr>
+                <td class="player-name">{{ this.responseData.playerInfo.username }}</td>
+              </tr>
+              <tr>
+                <td>CREATED: {{ timestampToDate(this.responseData.playerInfo.createdAt) }}</td>
+              </tr>
+              <tr>
+                <td>LAST BATTLE: {{ timestampToDate(this.responseData.playerInfo.lastBattle) }}</td>
+              </tr>
+            </table>
           </div>
         </div>
-
-        <div class="general-stats-container">
-          <div class="container-final">
-            <table class="profile-table">
-              <tbody>
-                <tr>
-                  <td>WN8</td>
-                  <td>
-                    <Tag :class="wn8Colors(this.responseData.playerInfo.wn8)" severity="success" rounded>
-                      {{ this.responseData.playerInfo.wn8 }}
-                    </Tag>
-                  </td>
-                </tr>
-                <tr>
-                  <td>RATING</td>
-                  <td>{{ this.responseData.playerInfo.globalRating }}</td>
-                </tr>
-                <tr>
-                  <td>BATTLES</td>
-                  <td>{{ this.responseData.playerInfo.battles }}</td>
-                </tr>
-                <tr>
-                  <td>MAX KILLS</td>
-                  <td>{{ this.responseData.playerInfo.killsMax }}</td>
-                </tr>
-                <tr>
-                  <td>SURVIVED</td>
-                  <td>{{ this.responseData.playerInfo.survivalRate }}%</td>
-                </tr>
-                <tr>
-                  <td>HITS</td>
-                  <td>{{ this.responseData.playerInfo.hitsPercent }}%</td>
-                </tr>
-                <tr>
-                  <td>SURVIVED</td>
-                  <td>{{ this.responseData.playerInfo.survivalRate }}%</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="container-final">
-            <table>
-              <tbody>
-                <tr>
-                  <td>WINS</td>
-                  <td>{{ this.responseData.playerInfo.wins }}</td>
-                  <td>{{ this.responseData.playerInfo.winRate }}%</td>
-                </tr>
-                <tr>
-                  <td>LOSSES</td>
-                  <td>{{ this.responseData.playerInfo.losses }}</td>
-                  <td>{{ this.responseData.playerInfo.lossRate }}%</td>
-                </tr>
-                <tr>
-                  <td>DRAWS</td>
-                  <td>{{ this.responseData.playerInfo.draws }}</td>
-                  <td>{{ this.responseData.playerInfo.drawRate }}%</td>
-                </tr>
-                <tr>
-                  <td>DAMAGE</td>
-                  <td>{{ this.responseData.playerInfo.damageDealt }}</td>
-                  <td>{{ this.responseData.playerInfo.damageAvg }}</td>
-                </tr>
-                <tr>
-                  <td>KILLS</td>
-                  <td>{{ this.responseData.playerInfo.kills }}</td>
-                  <td>{{ this.responseData.playerInfo.killsAvg }}</td>
-                </tr>
-                <tr>
-                  <td>SPOTS</td>
-                  <td>{{ this.responseData.playerInfo.spotsTotal }}</td>
-                  <td>{{ this.responseData.playerInfo.spotsAvg }}</td>
-                </tr>
-                <tr>
-                  <td>CAP</td>
-                  <td>{{ this.responseData.playerInfo.capturePoints }}</td>
-                  <td>{{ this.responseData.playerInfo.captureAvg }}</td>
-                </tr>
-                <tr>
-                  <td>DECAP</td>
-                  <td>{{ this.responseData.playerInfo.defensePoints }}</td>
-                  <td>{{ this.responseData.playerInfo.defenseAvg }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="info-box two">
+          <table>
+            <tr>
+              <td>WINS</td>
+              <td>{{ this.responseData.playerInfo.winRate }}%</td>
+              <td>{{ this.responseData.playerInfo.wins }}</td>
+            </tr>
+            <tr>
+              <td>LOSSES</td>
+              <td>{{ this.responseData.playerInfo.lossRate }}%</td>
+              <td>{{ this.responseData.playerInfo.losses }}</td>
+            </tr>
+            <tr>
+              <td>DRAWS</td>
+              <td>{{ this.responseData.playerInfo.drawRate }}%</td>
+              <td>{{ this.responseData.playerInfo.draws }}</td>
+            </tr>
+            <tr>
+              <td>DAMAGE</td>
+              <td>{{ this.responseData.playerInfo.damageAvg }}</td>
+              <td>{{ this.responseData.playerInfo.damageDealt }}</td>
+            </tr>
+            <tr>
+              <td>KILLS</td>
+              <td>{{ this.responseData.playerInfo.killsAvg }}</td>
+              <td>{{ this.responseData.playerInfo.kills }}</td>
+            </tr>
+            <tr>
+              <td>SPOTS</td>
+              <td>{{ this.responseData.playerInfo.spotsAvg }}</td>
+              <td>{{ this.responseData.playerInfo.spotsTotal }}</td>
+            </tr>
+            <tr>
+              <td>CAP</td>
+              <td>{{ this.responseData.playerInfo.captureAvg }}</td>
+              <td>{{ this.responseData.playerInfo.capturePoints }}</td>
+            </tr>
+            <tr>
+              <td>DECAP</td>
+              <td>{{ this.responseData.playerInfo.defenseAvg }}</td>
+              <td>{{ this.responseData.playerInfo.defensePoints }}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="info-box three">
+          <img :src="this.clanData.clan.emblems.x195.portal" alt="Clan logo" /> <br />
+          <div class="clan-tag">[{{ this.clanData.clan.tag }}]</div>
         </div>
       </div>
 
@@ -115,11 +71,11 @@
         <span class="p-tag">Graphs</span>
       </Divider>
 
-      <div class="graph-container">
-        <div class="graphic">
+      <div class="chart-container">
+        <div class="chart-one">
           <Chart type="line" :data="multiAxisChart" :options="multiAxisOptions" />
         </div>
-        <div class="graphic">
+        <div class="chart-two">
           <Chart type="bar" :data="barChartData" :options="barChartOptions" />
         </div>
       </div>
@@ -235,37 +191,45 @@ export default {
         labels: ['Loading data...'],
         datasets: [
           {
-            label: 'Vehicles',
+            label: 'VEHICLES PER TIER',
             backgroundColor: '#1472ff',
-            data: [65, 59, 80, 81, 56, 55, 40],
+            data: [],
           },
         ],
       },
       barChartOptions: {
         responsive: true,
+        layout: {
+          padding: {
+            left: 30,
+          },
+        },
         plugins: {
           legend: {
-            display: false,
+            display: true,
             labels: {
-              color: '#495057',
+              font: {
+                family: 'Segoe UI, sans-serif',
+              },
+              color: '#dedede',
             },
           },
         },
         scales: {
           x: {
             ticks: {
-              color: '#495057',
+              color: '#dedede',
             },
             grid: {
-              color: '#ebedef',
+              color: '#495057',
             },
           },
           y: {
             ticks: {
-              color: '#495057',
+              color: '#dedede',
             },
             grid: {
-              color: '#ebedef',
+              color: '#495057',
             },
           },
         },
@@ -274,15 +238,15 @@ export default {
         labels: [],
         datasets: [
           {
-            label: 'wn8',
+            label: 'WN8',
             fill: false,
-            borderColor: '#42A5F5',
+            borderColor: '#1472ff',
             yAxisID: 'y',
             tension: 0.4,
             data: [],
           },
           {
-            label: 'winrate',
+            label: 'WR%',
             fill: false,
             borderColor: '#00bb7e',
             yAxisID: 'y1',
@@ -292,21 +256,30 @@ export default {
         ],
       },
       multiAxisOptions: {
+        layout: {
+          padding: {
+            left: 30,
+          },
+        },
+        responsive: true,
         stacked: false,
         plugins: {
           legend: {
             labels: {
-              color: '#495057', // title color
+              font: {
+                family: 'Segoe UI, sans-serif',
+              },
+              color: '#dedede',
             },
           },
         },
         scales: {
           x: {
             ticks: {
-              color: '#495057',
+              color: '#dedede',
             },
             grid: {
-              color: '#ebedef',
+              color: '#495057',
             },
           },
           y: {
@@ -314,10 +287,10 @@ export default {
             display: true,
             position: 'left',
             ticks: {
-              color: '#495057', // wn8 color
+              color: '#1472ff',
             },
             grid: {
-              color: '#ebedef',
+              color: '#495057',
             },
           },
           y1: {
@@ -325,11 +298,11 @@ export default {
             display: true,
             position: 'right',
             ticks: {
-              color: '#495057', // winrate color
+              color: '#00bb7e',
             },
             grid: {
               drawOnChartArea: false,
-              color: '#ebedef',
+              color: '#495057',
             },
           },
         },
@@ -360,7 +333,7 @@ export default {
       responseData: {
         tankStats: [],
         playerInfo: {
-          username: '',
+          username: 'Loading',
           accountId: null,
           clanId: null,
           globalRating: null,
@@ -389,8 +362,10 @@ export default {
           battles: null,
           winRate: null,
           survivalRate: null,
-          wn8: null || 0,
+          wn8: 0,
           lossRate: null,
+          lastBattle: null,
+          createdAt: null,
         },
       },
     };
@@ -462,6 +437,11 @@ export default {
     });
   },
   methods: {
+    timestampToDate(timestamp) {
+      const date = new Date(timestamp * 1000).toLocaleDateString('en-GB');
+      return date;
+    },
+
     checkPremium(data) {
       return [
         {
@@ -512,230 +492,251 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.main-container {
-  .general-stats-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 50%;
-  }
-
-  .loading-msg {
-    color: var(--text-light);
-  }
-
-  .img-mastery-none {
-    display: none;
-  }
-
-  .spinner-container-player {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  .battles {
-    max-width: 4rem;
-  }
-
-  // *****
-  // Unable to select multiple slotProps classes at once. ('wn8- ' and 'wr- ')
-  // It breaks coloring for both.
-  // Needed to select separately.
-  // *****
-  .wn8-1 {
-    background-color: #401070;
-    color: var(--text-light);
-  }
-
-  .wn8-2 {
-    background-color: #793db6;
-    color: var(--text-light);
-  }
-
-  .wn8-3 {
-    background-color: #3972c6;
-    color: var(--text-light);
-  }
-
-  .wn8-4 {
-    background-color: #4099bf;
-    color: var(--text-light);
-  }
-
-  .wn8-5 {
-    background-color: #4d7326;
-    color: var(--text-light);
-  }
-
-  .wn8-6 {
-    background-color: #849b24;
-    color: var(--text-light);
-  }
-
-  .wn8-7 {
-    background-color: #ccb800;
-    color: var(--text-light);
-  }
-
-  .wn8-8 {
-    background-color: #cc7a00;
-    color: var(--text-light);
-  }
-
-  .wn8-9 {
-    background-color: #cd3333;
-    color: var(--text-light);
-  }
-
-  .wn8-10 {
-    background-color: #930d0d;
-    color: var(--text-light);
-  }
-
-  .wr-1 {
-    background-color: #401070;
-    color: var(--text-light);
-  }
-
-  .wr-2 {
-    background-color: #793db6;
-    color: var(--text-light);
-  }
-
-  .wr-3 {
-    background-color: #3972c6;
-    color: var(--text-light);
-  }
-
-  .wr-4 {
-    background-color: #4099bf;
-    color: var(--text-light);
-  }
-
-  .wr-5 {
-    background-color: #4d7326;
-    color: var(--text-light);
-  }
-
-  .wr-6 {
-    background-color: #849b24;
-    color: var(--text-light);
-  }
-
-  .wr-7 {
-    background-color: #ccb800;
-    color: var(--text-light);
-  }
-
-  .wr-8 {
-    background-color: #cc7a00;
-    color: var(--text-light);
-  }
-
-  .wr-9 {
-    background-color: #cd3333;
-    color: var(--text-light);
-  }
-
-  .wr-10 {
-    background-color: #930d0d;
-    color: var(--text-light);
-  }
-}
-
-@media only screen and (max-width: 950px) {
-  .graphic {
-    position: relative;
-    width: 95%;
-    margin: 0.3rem;
-  }
-
-  .profile {
-    flex-direction: column;
-    width: 100%;
-  }
-}
-
-.profile {
+<style lang="scss" scoped>
+.profile-container {
   display: flex;
-  width: 70%;
-  color: var(--text-light);
-  padding-top: 1rem;
+  justify-content: space-between;
 
-  .profile-second {
-    display: inline-flex;
-    margin-right: 0.8rem;
-    width: 50%;
-  }
-
-  .general-stats-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .container-one {
-    .logo {
-      height: 150px;
-      width: 150px;
-      margin-right: 0.8rem;
-    }
-  }
-  .container-two {
-    width: 100%;
-
-    .tag {
-      color: v-bind('clanData.clan.color');
-      font-size: 1.8rem;
-    }
-
-    .playername {
-      font-size: 2rem;
-      font-weight: 700;
-    }
-  }
-
-  .container-final {
-    margin-left: 2rem;
-
+  tr:first-child {
     td {
-      padding: 0rem 1rem 0rem 1rem;
-      &:first-child {
-        font-weight: 700;
-        text-align: right;
-        border-right: solid 3px var(--text-dark);
+      width: 70%;
+    }
+  }
+
+  .player-name {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-dark);
+  }
+
+  .info-box {
+    width: 33.33%;
+    color: var(--text-light);
+
+    &.two {
+      table {
+        margin: auto;
+        width: 100%;
+        text-align: center;
+
+        td {
+          width: 33.33%;
+          padding: 0rem 1rem 0rem 1rem;
+          &:first-child {
+            font-weight: 700;
+            text-align: right;
+            border-right: solid 3px var(--text-dark);
+          }
+          &:nth-child(n + 2) {
+            font-weight: 600;
+          }
+        }
       }
-      &:nth-child(n + 2) {
-        font-weight: 600;
+    }
+    &.three {
+      background: yellow;
+
+      text-align: right;
+      .clan-tag {
+        font-size: 2rem;
+        color: v-bind('clanData.clan.color');
+      }
+
+      img {
+        height: 128px;
+        width: 128px;
       }
     }
   }
 }
+.loading-msg {
+  color: var(--text-light);
+}
 
-@media only screen and (min-width: 850px) {
-  .graphic:first-child {
-    margin-right: 4rem;
-    margin-left: 2rem;
-    margin-bottom: 2rem;
+.img-mastery-none {
+  display: none;
+}
+
+.spinner-container-player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.battles {
+  max-width: 4rem;
+}
+
+// *****
+// Unable to select multiple slotProps classes at once. ('wn8- ' and 'wr- ')
+// It breaks coloring for both.
+// Needed to select separately.
+// *****
+.wn8-1 {
+  background-color: #401070;
+  color: var(--text-light);
+}
+
+.wn8-2 {
+  background-color: #793db6;
+  color: var(--text-light);
+}
+
+.wn8-3 {
+  background-color: #3972c6;
+  color: var(--text-light);
+}
+
+.wn8-4 {
+  background-color: #4099bf;
+  color: var(--text-light);
+}
+
+.wn8-5 {
+  background-color: #4d7326;
+  color: var(--text-light);
+}
+
+.wn8-6 {
+  background-color: #849b24;
+  color: var(--text-light);
+}
+
+.wn8-7 {
+  background-color: #ccb800;
+  color: var(--text-light);
+}
+
+.wn8-8 {
+  background-color: #cc7a00;
+  color: var(--text-light);
+}
+
+.wn8-9 {
+  background-color: #cd3333;
+  color: var(--text-light);
+}
+
+.wn8-10 {
+  background-color: #930d0d;
+  color: var(--text-light);
+}
+
+.wr-1 {
+  background-color: #401070;
+  color: var(--text-light);
+}
+
+.wr-2 {
+  background-color: #793db6;
+  color: var(--text-light);
+}
+
+.wr-3 {
+  background-color: #3972c6;
+  color: var(--text-light);
+}
+
+.wr-4 {
+  background-color: #4099bf;
+  color: var(--text-light);
+}
+
+.wr-5 {
+  background-color: #4d7326;
+  color: var(--text-light);
+}
+
+.wr-6 {
+  background-color: #849b24;
+  color: var(--text-light);
+}
+
+.wr-7 {
+  background-color: #ccb800;
+  color: var(--text-light);
+}
+
+.wr-8 {
+  background-color: #cc7a00;
+  color: var(--text-light);
+}
+
+.wr-9 {
+  background-color: #cd3333;
+  color: var(--text-light);
+}
+
+.wr-10 {
+  background-color: #930d0d;
+  color: var(--text-light);
+}
+
+@media only screen and (max-width: 900px) {
+  .profile-container {
+    flex-direction: column;
+    display: inline-flex;
+    width: 100%;
+    .info-box {
+      height: 20vh;
+
+      &.one {
+        width: 100%;
+        height: 7rem;
+        .table-user {
+          display: flex;
+          justify-content: center;
+          text-align: center;
+        }
+      }
+      &.two {
+        width: 100%;
+        td {
+          padding: 0rem 1rem 0rem 1rem;
+          &:first-child {
+            font-weight: 700;
+            text-align: right;
+            border-right: solid 3px var(--text-dark);
+          }
+          &:nth-child(n + 2) {
+            font-weight: 600;
+          }
+        }
+      }
+      &.three {
+        width: 100%;
+      }
+    }
   }
 
-  .graphic {
-    position: relative;
-    width: 45%;
-    float: left;
-    margin: auto;
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+    .chart-one {
+      position: relative;
+      width: 90%;
+    }
+
+    .chart-two {
+      position: relative;
+      width: 90%;
+    }
   }
 }
 
-@media only screen and (max-width: 850px) {
-  .graphic {
-    position: relative;
-    width: 95%;
-    margin: auto;
+@media only screen and (min-width: 900px) {
+  .chart-container {
+    display: flex;
+    .chart-one {
+      position: relative;
+      width: 49%;
+    }
+
+    .chart-two {
+      position: relative;
+      width: 49%;
+    }
   }
 }
 </style>
