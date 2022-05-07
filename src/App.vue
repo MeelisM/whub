@@ -79,10 +79,6 @@ body {
     width: 24px;
   }
 
-  .premium {
-    color: #ffa726;
-  }
-
   .p-tag {
     background: var(--text-dark);
     display: inline-flex;
@@ -94,9 +90,11 @@ body {
     justify-content: center;
   }
 
-  .p-datatable .p-datatable-tbody > tr > td {
-    text-align: center;
-    border: 1px solid #484848;
+  .p-datatable .p-datatable-tbody > tr {
+    td {
+      text-align: center;
+      border: 1px solid #484848;
+    }
   }
 
   .p-datatable .p-datatable-thead > tr > th {
@@ -104,11 +102,8 @@ body {
   }
 
   .p-datatable .p-sortable-column.p-highlight {
-    background: #4891ff;
-    color: #ffffff;
-  }
-  body .p-datatable .p-sortable-column.p-highlight {
     background: var(--text-dark);
+    color: #ffffff;
   }
 
   .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {

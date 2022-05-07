@@ -35,14 +35,6 @@
 <script>
 export default {
   name: 'SideBar',
-  data() {
-    return {
-      //
-    };
-  },
-  methods: {
-    //
-  },
 };
 </script>
 
@@ -103,7 +95,7 @@ export default {
     height: 100vh;
 
     &:hover {
-      width: 14rem;
+      width: 12rem;
 
       .link-text {
         display: block;

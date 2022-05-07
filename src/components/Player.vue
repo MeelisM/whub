@@ -29,7 +29,11 @@
               <tbody>
                 <tr>
                   <td>WN8</td>
-                  <td>{{ this.responseData.playerInfo.wn8 }}</td>
+                  <td>
+                    <Tag :class="wn8Colors(this.responseData.playerInfo.wn8)" severity="success" rounded>
+                      {{ this.responseData.playerInfo.wn8 }}
+                    </Tag>
+                  </td>
                 </tr>
                 <tr>
                   <td>RATING</td>
@@ -352,6 +356,7 @@ export default {
         role_i18n: '',
         joined_at: null,
       },
+
       responseData: {
         tankStats: [],
         playerInfo: {
