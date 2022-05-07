@@ -9,6 +9,9 @@
     />
   </div>
   <div v-if="!loading" class="container">
+    <Divider>
+      <span class="p-tag">Expected Values</span>
+    </Divider>
     <DataTable
       :value="tableData"
       class="p-datatable-sm"
