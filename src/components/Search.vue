@@ -48,23 +48,26 @@ export default {
   align-items: center;
 
   .p-button {
-    background: #1472ff;
+    background: var(--bg-light);
     color: #ffffff;
     border-radius: 0px 3px 3px 0px;
   }
 
   .input {
-    width: 40vw;
+    width: 25vw;
   }
 
   .p-inputgroup-addon {
-    background: #1472ff;
+    background: var(--bg-light);
     color: #ffffff;
   }
+}
 
-  .p-inputtext .p-inputgroup {
-    border-radius: 3px 0px 0px 3px;
-    border-color: #81d4fa;
+@media only screen and (max-width: 600px) {
+  .container {
+    .input {
+      width: 75%;
+    }
   }
 }
 </style>
