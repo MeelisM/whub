@@ -25,17 +25,17 @@
           <table>
             <tr>
               <td>WN8</td>
-              <td>{{ this.responseData.playerInfo.wn8 }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.wn8) }}</td>
               <td>+2</td>
             </tr>
             <tr>
               <td>RATING</td>
-              <td>{{ this.responseData.playerInfo.globalRating }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.globalRating) }}</td>
               <td>+3</td>
             </tr>
             <tr>
               <td>BATTLES</td>
-              <td>{{ this.responseData.playerInfo.battles }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.battles) }}</td>
               <td>+46</td>
             </tr>
             <tr>
@@ -55,12 +55,12 @@
             </tr>
             <tr>
               <td>BLOCKED</td>
-              <td>{{ this.responseData.playerInfo.blockedAverage }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.blockedAverage) }}</td>
               <td>+0.02</td>
             </tr>
             <tr>
-              <td>TREES CUT</td>
-              <td>{{ this.responseData.playerInfo.treesCut }}</td>
+              <td>TREES</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.treesCut) }}</td>
               <td>+192</td>
             </tr>
           </table>
@@ -107,7 +107,7 @@
             </tr>
           </table>
         </div>
-        <Divider class="divider-clan">
+        <Divider v-if="!displayClanInfo" class="divider-clan">
           <span class="p-tag">Clan Information</span>
         </Divider>
         <div v-if="!displayClanInfo" class="info-box three">
@@ -409,8 +409,9 @@ export default {
           survivalRate: 0,
           wn8: 0,
           lossRate: 0,
-          lastBattle: null,
-          createdAt: null,
+          lastBattle: 0,
+          createdAt: 0,
+          treesCut: 0,
         },
       },
     };
@@ -557,6 +558,9 @@ export default {
           }
           &:nth-child(n + 2) {
             font-weight: 600;
+          }
+          &:nth-child(3) {
+            text-align: left;
           }
         }
       }
@@ -720,7 +724,7 @@ export default {
         text-align: center;
       }
       &.two {
-        padding-top: 2rem;
+        padding-top: 1rem;
         width: 100%;
         height: 100%;
         td {
@@ -729,7 +733,7 @@ export default {
             font-weight: 700;
             text-align: right;
             border-right: solid 1px var(--text-dark);
-            color: #495057;
+            min-width: 7rem;
           }
           &:nth-child(n + 2) {
             font-weight: 600;
@@ -740,7 +744,6 @@ export default {
         width: 100%;
         height: auto;
         text-align: center;
-        margin-top: 2rem;
       }
     }
   }
