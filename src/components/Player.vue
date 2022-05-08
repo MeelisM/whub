@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="main-container">
-      <div class="profile-container">
+      <div v-if="!loading" class="profile-container">
         <div class="info-box one">
           <div class="table-user">
             <table>
@@ -17,53 +17,103 @@
             </table>
           </div>
         </div>
+
+        <Divider class="divider-profile">
+          <span class="p-tag">General Statistics</span>
+        </Divider>
         <div class="info-box two">
+          <table>
+            <tr>
+              <td>WN8</td>
+              <td>{{ this.responseData.playerInfo.wn8 }}</td>
+              <td>+2</td>
+            </tr>
+            <tr>
+              <td>RATING</td>
+              <td>{{ this.responseData.playerInfo.globalRating }}</td>
+              <td>+3</td>
+            </tr>
+            <tr>
+              <td>BATTLES</td>
+              <td>{{ this.responseData.playerInfo.battles }}</td>
+              <td>+46</td>
+            </tr>
+            <tr>
+              <td>MAX XP</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.xpMax) }}</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>SURVIVED</td>
+              <td>{{ this.responseData.playerInfo.survivalRate }}%</td>
+              <td>+0.07%</td>
+            </tr>
+            <tr>
+              <td>HITRATE</td>
+              <td>{{ this.responseData.playerInfo.hitsPercent }}%</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>BLOCKED</td>
+              <td>{{ this.responseData.playerInfo.blockedAverage }}</td>
+              <td>+0.02</td>
+            </tr>
+            <tr>
+              <td>TREES CUT</td>
+              <td>{{ this.responseData.playerInfo.treesCut }}</td>
+              <td>+192</td>
+            </tr>
+          </table>
           <table>
             <tr>
               <td>WINS</td>
               <td>{{ this.responseData.playerInfo.winRate }}%</td>
-              <td>{{ this.responseData.playerInfo.wins }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.wins) }}</td>
             </tr>
             <tr>
               <td>LOSSES</td>
               <td>{{ this.responseData.playerInfo.lossRate }}%</td>
-              <td>{{ this.responseData.playerInfo.losses }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.losses) }}</td>
             </tr>
             <tr>
               <td>DRAWS</td>
               <td>{{ this.responseData.playerInfo.drawRate }}%</td>
-              <td>{{ this.responseData.playerInfo.draws }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.draws) }}</td>
             </tr>
             <tr>
               <td>DAMAGE</td>
-              <td>{{ this.responseData.playerInfo.damageAvg }}</td>
-              <td>{{ this.responseData.playerInfo.damageDealt }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.damageAvg) }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.damageDealt) }}</td>
             </tr>
             <tr>
               <td>KILLS</td>
               <td>{{ this.responseData.playerInfo.killsAvg }}</td>
-              <td>{{ this.responseData.playerInfo.kills }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.kills) }}</td>
             </tr>
             <tr>
               <td>SPOTS</td>
               <td>{{ this.responseData.playerInfo.spotsAvg }}</td>
-              <td>{{ this.responseData.playerInfo.spotsTotal }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.spotsTotal) }}</td>
             </tr>
             <tr>
               <td>CAP</td>
               <td>{{ this.responseData.playerInfo.captureAvg }}</td>
-              <td>{{ this.responseData.playerInfo.capturePoints }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.capturePoints) }}</td>
             </tr>
             <tr>
               <td>DECAP</td>
               <td>{{ this.responseData.playerInfo.defenseAvg }}</td>
-              <td>{{ this.responseData.playerInfo.defensePoints }}</td>
+              <td>{{ formatNumbers(this.responseData.playerInfo.defensePoints) }}</td>
             </tr>
           </table>
         </div>
-        <div class="info-box three">
+        <Divider class="divider-clan">
+          <span class="p-tag">Clan Information</span>
+        </Divider>
+        <div v-if="!displayClanInfo" class="info-box three">
           <img :src="this.clanData.clan.emblems.x195.portal" alt="Clan logo" /> <br />
-          <div class="clan-tag">[{{ this.clanData.clan.tag }}]</div>
+          <div class="clan-tag">[{{ this.clanData.clan.tag }}] Private</div>
+          <div>Joined @ {{ timestampToDate(this.clanData.joined_at) }}</div>
         </div>
       </div>
 
@@ -308,62 +358,57 @@ export default {
         },
       },
       loading: false,
+      displayClanInfo: false,
       clanData: {
         clan: {
           name: '',
           color: '',
-          created_at: null,
-          tag: '',
+          created_at: 0,
+          tag: 'No Clan',
           emblems: {
-            x64: {
-              portal: '',
-            },
             x195: {
-              portal: '',
-            },
-            x256: {
-              wowp: '',
+              portal: 'No clan',
             },
           },
         },
         role_i18n: '',
-        joined_at: null,
+        joined_at: 0,
       },
 
       responseData: {
         tankStats: [],
         playerInfo: {
           username: 'Loading',
-          accountId: null,
-          clanId: null,
-          globalRating: null,
-          spotsTotal: null,
-          spotsAvg: null,
-          assistedAverage: null,
-          hitsTotal: null,
-          hitsPercent: null,
-          xpMax: null,
-          xpTotal: null,
-          blockedAverage: null,
-          capturePoints: null,
-          defensePoints: null,
-          defenseAvg: null,
-          survivedBattles: null,
-          kills: null,
-          killsMax: null,
-          killsAvg: null,
-          damageDealt: null,
-          damageReceived: null,
-          damageMax: null,
-          damageAvg: null,
-          wins: null,
-          losses: null,
-          draws: null,
-          battles: null,
-          winRate: null,
-          survivalRate: null,
+          accountId: 0,
+          clanId: 0,
+          globalRating: 0,
+          spotsTotal: 0,
+          spotsAvg: 0,
+          assistedAverage: 0,
+          hitsTotal: 0,
+          hitsPercent: 0,
+          xpMax: 0,
+          xpTotal: 0,
+          blockedAverage: 0,
+          capturePoints: 0,
+          defensePoints: 0,
+          defenseAvg: 0,
+          survivedBattles: 0,
+          kills: 0,
+          killsMax: 0,
+          killsAvg: 0,
+          damageDealt: 0,
+          damageReceived: 0,
+          damageMax: 0,
+          damageAvg: 0,
+          wins: 0,
+          losses: 0,
+          draws: 0,
+          battles: 0,
+          winRate: 0,
+          survivalRate: 0,
           wn8: 0,
-          lossRate: null,
+          lossRate: 0,
           lastBattle: null,
           createdAt: null,
         },
@@ -386,8 +431,7 @@ export default {
         winrate: this.responseData.playerInfo.winRate,
       };
       this.dataService.postGraphValues(graphData);
-      ////////////////////////////////////////////////////////////
-      // TIER STATISTICS
+
       const tanksData = this.responseData.tankStats;
       const tanksAmountPerTier = Object.entries(
         tanksData.reduce((acc, { tier }) => {
@@ -401,33 +445,12 @@ export default {
       this.barChartData.labels = tierNumberArrayPrefix;
       this.barChartData.datasets[0].data = amountOfTanksArray;
     });
-    //
-    ////////////////////////////////////////////////////////////
+
     this.dataService.getPlayerClan(id).then((data) => {
-      if (data != null) {
+      if (data.data[id] != null) {
         this.clanData = data.data[id];
       } else {
-        this.clanData = {
-          clan: {
-            name: 'NO CLAN',
-            color: '#dedede',
-            created_at: null,
-            tag: 'NOCLAN',
-            emblems: {
-              x64: {
-                portal: '',
-              },
-              x195: {
-                portal: '/ussr.png',
-              },
-              x256: {
-                wowp: '',
-              },
-            },
-          },
-          role_i18n: 'A Player',
-          joined_at: '',
-        };
+        this.displayClanInfo = true;
       }
     });
     this.dataService.getGraphValues(id).then((data) => {
@@ -437,6 +460,11 @@ export default {
     });
   },
   methods: {
+    formatNumbers(number) {
+      const formattedNumber = number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return formattedNumber;
+    },
+
     timestampToDate(timestamp) {
       const date = new Date(timestamp * 1000).toLocaleDateString('en-GB');
       return date;
@@ -534,11 +562,9 @@ export default {
       }
     }
     &.three {
-      background: yellow;
-
       text-align: right;
       .clan-tag {
-        font-size: 2rem;
+        font-size: 1.4rem;
         color: v-bind('clanData.clan.color');
       }
 
@@ -678,26 +704,35 @@ export default {
     flex-direction: column;
     display: inline-flex;
     width: 100%;
+    margin-top: 1rem;
+
     .info-box {
-      height: 20vh;
+      height: 10vh;
+
+      .divider-clan {
+        display: none;
+      }
+      .divider-profile {
+        display: none;
+      }
 
       &.one {
         width: 100%;
-        height: 7rem;
-        .table-user {
-          display: flex;
-          justify-content: center;
-          text-align: center;
-        }
+        display: flex;
+        justify-content: center;
+        text-align: center;
       }
       &.two {
+        padding-top: 2rem;
         width: 100%;
+        height: 100%;
         td {
           padding: 0rem 1rem 0rem 1rem;
           &:first-child {
             font-weight: 700;
             text-align: right;
-            border-right: solid 3px var(--text-dark);
+            border-right: solid 1px var(--text-dark);
+            color: #495057;
           }
           &:nth-child(n + 2) {
             font-weight: 600;
@@ -706,6 +741,9 @@ export default {
       }
       &.three {
         width: 100%;
+        height: auto;
+        text-align: center;
+        margin-top: 2rem;
       }
     }
   }
@@ -726,6 +764,38 @@ export default {
 }
 
 @media only screen and (min-width: 900px) {
+  .info-box {
+    padding-top: 1rem;
+    .divider {
+      &.profile {
+        display: none;
+        color: red;
+      }
+    }
+
+    &.one {
+      width: 18%;
+      .table-user {
+        display: flex;
+      }
+    }
+
+    &.two {
+      width: 70%;
+      display: flex;
+    }
+
+    &.three {
+      width: 12%;
+    }
+  }
+
+  .divider-clan {
+    display: none;
+  }
+  .divider-profile {
+    display: none;
+  }
   .chart-container {
     display: flex;
     .chart-one {
