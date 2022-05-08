@@ -709,10 +709,7 @@ export default {
     .info-box {
       height: 10vh;
 
-      .divider-clan {
-        display: none;
-      }
-      .divider-profile {
+      .divider-clan .divider-profile {
         display: none;
       }
 
