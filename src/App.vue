@@ -131,10 +131,6 @@ body {
   .container {
     width: 80%;
     margin: auto;
-
-    .content-container {
-      margin-left: 2rem;
-    }
   }
 }
 </style>
