@@ -26,13 +26,20 @@
     >
       <Column class="field icon">
         <template #body="{ data }">
-          <img :src="data.images.contour_icon" :alt="data.images.contour_icon" />
+          <img
+            :src="data.images.contour_icon"
+            :alt="data.images.contour_icon"
+          />
         </template>
       </Column>
       <Column class="field tank-type" field="nation" header="Class">
         <template #body="slotProps">
           <div :class="slotProps.data">
-            <img class="tank-type" :src="'/type/' + slotProps.data.type + '.png'" :alt="slotProps.data.type" />
+            <img
+              class="tank-type"
+              :src="'/type/' + slotProps.data.type + '.png'"
+              :alt="slotProps.data.type"
+            />
           </div>
         </template>
       </Column>
@@ -46,11 +53,20 @@
       <Column class="field nation" field="nation" header="Nation">
         <template #body="slotProps">
           <div :class="slotProps.data">
-            <img class="nation-icon" :src="'/' + slotProps.data.nation + '.png'" :alt="slotProps.data.nation" />
+            <img
+              class="nation-icon"
+              :src="'/' + slotProps.data.nation + '.png'"
+              :alt="slotProps.data.nation"
+            />
           </div>
         </template>
       </Column>
-      <Column field="tier" header="Tier" :sortable="true" class="field tier"></Column>
+      <Column
+        field="tier"
+        header="Tier"
+        :sortable="true"
+        class="field tier"
+      ></Column>
       <Column field="mastery.0" header="3rd class" :sortable="true"></Column>
       <Column field="mastery.1" header="2nd class" :sortable="true"></Column>
       <Column field="mastery.2" header="1st class" :sortable="true"></Column>
@@ -60,10 +76,10 @@
 </template>
 
 <script>
-import DataService from '../service/DataService';
+import DataService from "../service/DataService";
 
 export default {
-  name: 'Mastery',
+  name: "Mastery",
   data() {
     return {
       tableData: null,

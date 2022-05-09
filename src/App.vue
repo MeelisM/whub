@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import SideBar from '@/components/SideBar.vue';
-import { RouterView } from 'vue-router';
+import SideBar from "@/components/SideBar.vue";
+import { RouterView } from "vue-router";
 
 export default {
   components: {
@@ -23,10 +23,9 @@ export default {
 
 <style lang="scss">
 :root {
-  font: 14px 'Segoe UI', sans-serif;
+  font: 14px "Segoe UI", sans-serif;
   --text-dark: #1472ff;
   --text-light: #dedede;
-  --bg-dark: #323232;
   --bg-light: #1472ff;
 
   // Firefox scrollbar
@@ -55,7 +54,7 @@ export default {
 }
 
 body {
-  background-color: rgb(24, 24, 24);
+  background-color: #181818;
 
   .spinner-container {
     height: 100vh;
@@ -116,7 +115,8 @@ body {
   }
 
   .nation-icon {
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+      rgba(0, 0, 0, 0.22) 0px 15px 12px;
     border: solid 1px #484848;
   }
 }

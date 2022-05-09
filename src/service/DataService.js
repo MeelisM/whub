@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 const APIurl = import.meta.env.VITE_APP_BACKEND_URL;
 const applicationId = import.meta.env.VITE_APP_API_ID;

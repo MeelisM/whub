@@ -1,18 +1,15 @@
 <template>
-    <main>
-        <Moe />
-    </main>
+  <main>
+    <Moe />
+  </main>
 </template>
-
 
 <script>
 import Moe from "@/components/Moe.vue";
 
 export default {
-    components: {
-        Moe
-    }
-}
+  components: {
+    Moe,
+  },
+};
 </script>
-
-

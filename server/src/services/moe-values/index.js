@@ -1,5 +1,5 @@
-const axios = require('axios');
-const mergeData = require('../../helpers/mergeData');
+const axios = require("axios");
+const mergeData = require("../../helpers/mergeData");
 
 const getMoeValues = async (req, res) => {
   try {

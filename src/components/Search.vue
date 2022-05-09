@@ -5,7 +5,11 @@
         <span class="p-inputgroup-addon">
           <i class="pi pi-user"></i>
         </span>
-        <InputText v-model="searchInput" placeholder="Username" class="input" />
+        <InputText
+          v-model="searchInput"
+          placeholder="Enter player name"
+          class="input"
+        />
         <Button @click="getPlayer" label="Search" />
       </div>
     </div>
@@ -13,13 +17,13 @@
 </template>
 
 <script>
-import DataService from '../service/DataService';
+import DataService from "../service/DataService";
 
 export default {
-  name: 'Search',
+  name: "Search",
   data() {
     return {
-      searchInput: '',
+      searchInput: "",
       userId: null,
     };
   },
