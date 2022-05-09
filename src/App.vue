@@ -70,7 +70,7 @@ body {
     }
   }
 
-  .short_name {
+  .premium {
     color: #ffa726;
   }
 

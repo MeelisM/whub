@@ -598,11 +598,6 @@ export default {
   max-width: 4rem;
 }
 
-// *****
-// Unable to select multiple slotProps classes at once. ('wn8- ' and 'wr- ')
-// It breaks coloring for both.
-// Needed to select separately.
-// *****
 .wn8-1 {
   background-color: #401070;
   color: var(--text-light);
