@@ -84,7 +84,7 @@ export default {
     checkIfPremium(data) {
       return [
         {
-          short_name: data.is_premium == true,
+          premium: data.is_premium == true,
         },
       ];
     },
