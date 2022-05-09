@@ -1,6 +1,6 @@
 # wothub
 
-This template should help get you started developing with Vue 3 in Vite.
+Create `.env` file. Content example can be found in `.env.example`.
 
 ## Recommended IDE Setup
 
