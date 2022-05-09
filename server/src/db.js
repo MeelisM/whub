@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -6,12 +6,12 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log('Connected to database');
+    console.log("Connected to database");
   })
   .catch((err) => {
     console.log(err);
   });
 
 module.exports = {
-  PlayerGraph: require('./models/playerGraph.model'),
+  PlayerGraph: require("./models/playerGraph.model"),
 };

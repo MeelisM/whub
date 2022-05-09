@@ -1,18 +1,15 @@
 <template>
-    <main>
-        <Player />
-    </main>
+  <main>
+    <Player />
+  </main>
 </template>
-
 
 <script>
 import Player from "@/components/Player.vue";
 
 export default {
-    components: {
-        Player
-    }
-}
+  components: {
+    Player,
+  },
+};
 </script>
-
-

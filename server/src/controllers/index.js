@@ -1,4 +1,4 @@
 module.exports = {
-  postGraphData: require('./postGraphData.controller'),
-  getGraphData: require('./getGraphData.controller'),
+  postGraphData: require("./postGraphData.controller"),
+  getGraphData: require("./getGraphData.controller"),
 };
