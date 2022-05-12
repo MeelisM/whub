@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const cors = require('cors');
 const { getExpectedValues, getPlayerStats, getMasteryValues, getMoeValues } = require('./services');
 const { postGraphData, getGraphData } = require('./controllers');
 
