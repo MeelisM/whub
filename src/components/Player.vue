@@ -148,11 +148,7 @@
 
       <div class="chart-container">
         <div class="chart-one">
-          <Chart
-            type="line"
-            :data="multiAxisChart"
-            :options="multiAxisOptions"
-          />
+          <Chart type="line" :data="multiAxisChart" :options="multiAxisOptions" />
         </div>
         <div class="chart-two">
           <Chart type="bar" :data="barChartData" :options="barChartOptions" />
@@ -188,20 +184,13 @@
       >
         <Column class="field contour" field="images.contour_icon" header="Icon">
           <template #body="{ data }">
-            <img
-              :src="data.images.contour_icon"
-              :alt="data.images.contour_icon"
-            />
+            <img :src="data.images.contour_icon" :alt="data.images.contour_icon" />
           </template>
         </Column>
         <Column class="field tank-type" field="nation" header="Class">
           <template #body="slotProps">
             <div :class="slotProps.data">
-              <img
-                class="tank-type"
-                :src="'/type/' + slotProps.data.type + '.png'"
-                :alt="slotProps.data.type"
-              />
+              <img class="tank-type" :src="'/type/' + slotProps.data.type + '.png'" :alt="slotProps.data.type" />
             </div>
           </template>
         </Column>
@@ -215,51 +204,23 @@
         <Column class="field nation" field="nation" header="Nation">
           <template #body="slotProps">
             <div :class="slotProps.data">
-              <img
-                class="nation-icon"
-                :src="'/' + slotProps.data.nation + '.png'"
-                :alt="slotProps.data.nation"
-              />
+              <img class="nation-icon" :src="'/' + slotProps.data.nation + '.png'" :alt="slotProps.data.nation" />
             </div>
           </template>
         </Column>
-        <Column
-          field="tier"
-          header="Tier"
-          :sortable="true"
-          class="field tier"
-        ></Column>
+        <Column field="tier" header="Tier" :sortable="true" class="field tier"></Column>
         <Column class="field" field="wn8" header="WN8" :sortable="true">
           <template #body="slotProps">
             <div>
-              <Tag
-                :class="wn8Colors(slotProps.data)"
-                severity="success"
-                rounded
-                >{{ slotProps.data.wn8 }}</Tag
-              >
+              <Tag :class="wn8Colors(slotProps.data)" severity="success" rounded>{{ slotProps.data.wn8 }}</Tag>
             </div>
           </template>
         </Column>
-        <Column
-          class="field battles"
-          field="all.battles"
-          header="Battles"
-          :sortable="true"
-        ></Column>
-        <Column
-          class="field"
-          field="avgWinRate"
-          header="Winrate"
-          :sortable="true"
-        >
+        <Column class="field battles" field="all.battles" header="Battles" :sortable="true"></Column>
+        <Column class="field" field="avgWinRate" header="Winrate" :sortable="true">
           <template #body="slotProps">
             <div>
-              <Tag
-                :class="winRateColors(slotProps.data)"
-                severity="success"
-                rounded
-              >
+              <Tag :class="winRateColors(slotProps.data)" severity="success" rounded>
                 {{ slotProps.data.avgWinRate.toFixed(2) }}%</Tag
               >
             </div>
@@ -272,29 +233,13 @@
             </div>
           </template>
         </Column>
-        <Column
-          class="field"
-          field="all.battle_avg_xp"
-          header="XP"
-          :sortable="true"
-        >
-        </Column>
-        <Column
-          class="field"
-          field="survived"
-          header="Survived"
-          :sortable="true"
-        >
+        <Column class="field" field="all.battle_avg_xp" header="XP" :sortable="true"> </Column>
+        <Column class="field" field="survived" header="Survived" :sortable="true">
           <template #body="slotProps">
             <div>{{ slotProps.data.survived.toFixed(2) }}%</div>
           </template>
         </Column>
-        <Column
-          class="field tank-type"
-          field="mark_of_mastery"
-          header="Badge"
-          :sortable="true"
-        >
+        <Column class="field tank-type" field="mark_of_mastery" header="Badge" :sortable="true">
           <template #body="slotProps">
             <div :class="checkMarks(slotProps.data)">
               <img
@@ -311,18 +256,18 @@
 </template>
 
 <script>
-import DataService from "../service/DataService";
+import DataService from '../service/DataService';
 
 export default {
-  name: "Player",
+  name: 'Player',
   data() {
     return {
       barChartData: {
-        labels: ["Loading data..."],
+        labels: ['Loading data...'],
         datasets: [
           {
-            label: "VEHICLES PER TIER",
-            backgroundColor: "#1472ff",
+            label: 'VEHICLES PER TIER',
+            backgroundColor: '#1472ff',
             data: [],
           },
         ],
@@ -339,27 +284,27 @@ export default {
             display: true,
             labels: {
               font: {
-                family: "Segoe UI, sans-serif",
+                family: 'Segoe UI, sans-serif',
               },
-              color: "#dedede",
+              color: '#dedede',
             },
           },
         },
         scales: {
           x: {
             ticks: {
-              color: "#dedede",
+              color: '#dedede',
             },
             grid: {
-              color: "#495057",
+              color: '#495057',
             },
           },
           y: {
             ticks: {
-              color: "#dedede",
+              color: '#dedede',
             },
             grid: {
-              color: "#495057",
+              color: '#495057',
             },
           },
         },
@@ -368,18 +313,18 @@ export default {
         labels: [],
         datasets: [
           {
-            label: "WN8",
+            label: 'WN8',
             fill: false,
-            borderColor: "#1472ff",
-            yAxisID: "y",
+            borderColor: '#1472ff',
+            yAxisID: 'y',
             tension: 0.4,
             data: [],
           },
           {
-            label: "WR%",
+            label: 'WR%',
             fill: false,
-            borderColor: "#00bb7e",
-            yAxisID: "y1",
+            borderColor: '#00bb7e',
+            yAxisID: 'y1',
             tension: 0.4,
             data: [],
           },
@@ -397,42 +342,42 @@ export default {
           legend: {
             labels: {
               font: {
-                family: "Segoe UI, sans-serif",
+                family: 'Segoe UI, sans-serif',
               },
-              color: "#dedede",
+              color: '#dedede',
             },
           },
         },
         scales: {
           x: {
             ticks: {
-              color: "#dedede",
+              color: '#dedede',
             },
             grid: {
-              color: "#495057",
+              color: '#495057',
             },
           },
           y: {
-            type: "linear",
+            type: 'linear',
             display: true,
-            position: "left",
+            position: 'left',
             ticks: {
-              color: "#1472ff",
+              color: '#1472ff',
             },
             grid: {
-              color: "#495057",
+              color: '#495057',
             },
           },
           y1: {
-            type: "linear",
+            type: 'linear',
             display: true,
-            position: "right",
+            position: 'right',
             ticks: {
-              color: "#00bb7e",
+              color: '#00bb7e',
             },
             grid: {
               drawOnChartArea: false,
-              color: "#495057",
+              color: '#495057',
             },
           },
         },
@@ -441,24 +386,24 @@ export default {
       displayClanInfo: false,
       clanData: {
         clan: {
-          name: "",
-          color: "",
+          name: '',
+          color: '',
           created_at: 0,
-          tag: "No Clan",
+          tag: null,
           emblems: {
             x195: {
-              portal: "No clan",
+              portal: null,
             },
           },
         },
-        role_i18n: "",
+        role_i18n: '',
         joined_at: 0,
       },
 
       responseData: {
         tankStats: [],
         playerInfo: {
-          username: "Loading",
+          username: 'Loading',
           accountId: 0,
           clanId: 0,
           globalRating: 0,
@@ -522,7 +467,7 @@ export default {
       ).map(([key, value]) => ({ tier: key, amount: value }));
       const amountOfTanksArray = tanksAmountPerTier.map(({ amount }) => amount);
       const tierNumberArray = tanksAmountPerTier.map(({ tier }) => tier);
-      const tierNumberArrayPrefix = tierNumberArray.map((i) => "tier " + i);
+      const tierNumberArrayPrefix = tierNumberArray.map((i) => 'tier ' + i);
       this.barChartData.labels = tierNumberArrayPrefix;
       this.barChartData.datasets[0].data = amountOfTanksArray;
     });
@@ -542,14 +487,12 @@ export default {
   },
   methods: {
     formatNumbers(number) {
-      const formattedNumber = number
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      const formattedNumber = number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       return formattedNumber;
     },
 
     timestampToDate(timestamp) {
-      const date = new Date(timestamp * 1000).toLocaleDateString("en-GB");
+      const date = new Date(timestamp * 1000).toLocaleDateString('en-GB');
       return date;
     },
 
@@ -563,39 +506,39 @@ export default {
     checkMarks(data) {
       return [
         {
-          "img-mastery-none": data.mark_of_mastery === 0,
+          'img-mastery-none': data.mark_of_mastery === 0,
         },
       ];
     },
     wn8Colors(data) {
       return [
         {
-          "wn8-1": data.wn8 >= 2900,
-          "wn8-2": data.wn8 < 2900 && data.wn8 >= 2450,
-          "wn8-3": data.wn8 < 2450 && data.wn8 >= 2000,
-          "wn8-4": data.wn8 < 2000 && data.wn8 >= 1600,
-          "wn8-5": data.wn8 < 1600 && data.wn8 >= 1200,
-          "wn8-6": data.wn8 < 1200 && data.wn8 >= 900,
-          "wn8-7": data.wn8 < 900 && data.wn8 >= 650,
-          "wn8-8": data.wn8 < 650 && data.wn8 >= 450,
-          "wn8-9": data.wn8 < 450 && data.wn8 >= 300,
-          "wn8-10": data.wn8 < 300,
+          'wn8-1': data.wn8 >= 2900,
+          'wn8-2': data.wn8 < 2900 && data.wn8 >= 2450,
+          'wn8-3': data.wn8 < 2450 && data.wn8 >= 2000,
+          'wn8-4': data.wn8 < 2000 && data.wn8 >= 1600,
+          'wn8-5': data.wn8 < 1600 && data.wn8 >= 1200,
+          'wn8-6': data.wn8 < 1200 && data.wn8 >= 900,
+          'wn8-7': data.wn8 < 900 && data.wn8 >= 650,
+          'wn8-8': data.wn8 < 650 && data.wn8 >= 450,
+          'wn8-9': data.wn8 < 450 && data.wn8 >= 300,
+          'wn8-10': data.wn8 < 300,
         },
       ];
     },
     winRateColors(data) {
       return [
         {
-          "wr-1": data.avgWinRate >= 65,
-          "wr-2": data.avgWinRate < 65 && data.avgWinRate >= 60,
-          "wr-3": data.avgWinRate < 60 && data.avgWinRate >= 56,
-          "wr-4": data.avgWinRate < 56 && data.avgWinRate >= 54,
-          "wr-5": data.avgWinRate < 54 && data.avgWinRate >= 52,
-          "wr-6": data.avgWinRate < 52 && data.avgWinRate >= 50,
-          "wr-7": data.avgWinRate < 50 && data.avgWinRate >= 48,
-          "wr-8": data.avgWinRate < 48 && data.avgWinRate >= 47,
-          "wr-9": data.avgWinRate < 47 && data.avgWinRate >= 46,
-          "wr-10": data.avgWinRate < 46,
+          'wr-1': data.avgWinRate >= 65,
+          'wr-2': data.avgWinRate < 65 && data.avgWinRate >= 60,
+          'wr-3': data.avgWinRate < 60 && data.avgWinRate >= 56,
+          'wr-4': data.avgWinRate < 56 && data.avgWinRate >= 54,
+          'wr-5': data.avgWinRate < 54 && data.avgWinRate >= 52,
+          'wr-6': data.avgWinRate < 52 && data.avgWinRate >= 50,
+          'wr-7': data.avgWinRate < 50 && data.avgWinRate >= 48,
+          'wr-8': data.avgWinRate < 48 && data.avgWinRate >= 47,
+          'wr-9': data.avgWinRate < 47 && data.avgWinRate >= 46,
+          'wr-10': data.avgWinRate < 46,
         },
       ];
     },
@@ -651,7 +594,7 @@ export default {
       text-align: right;
       .clan-tag {
         font-size: 1.4rem;
-        color: v-bind("clanData.clan.color");
+        color: v-bind('clanData.clan.color');
       }
 
       img {
