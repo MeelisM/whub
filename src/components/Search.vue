@@ -7,6 +7,7 @@
         </span>
         <InputText
           v-model="searchInput"
+          @keyup.enter="getPlayer"
           placeholder="Enter player name (example Yzne)"
           class="input"
         />
