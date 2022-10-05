@@ -7,7 +7,7 @@
         </span>
         <InputText
           v-model="searchInput"
-          placeholder="Enter player name"
+          placeholder="Enter player name (example Yzne)"
           class="input"
         />
         <Button @click="getPlayer" label="Search" />
