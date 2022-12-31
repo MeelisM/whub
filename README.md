@@ -4,7 +4,7 @@ Application, which calculates and displays World of Tanks player and tank statis
 
 ![Image](public/readme/landing_full.png) ![Image](public/readme/profile_full.png) ![Image](public/readme/mastery_full.png)
 
-![Image](public/readme/landing_mobile.png) ![Image](public/readme/profile_mobile.png) ![Image](public/readme/mastery_mobile.png)
+![Image](public/readme/views_mobile.png)
 
 Create `.env` file. Content example can be found in `.env.example`.
 
