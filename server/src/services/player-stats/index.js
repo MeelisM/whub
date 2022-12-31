@@ -48,11 +48,11 @@ const getPlayerStats = async function (req, res) {
           this.avgWinRate ||
           this.avgFrag) === null
       ) {
-        avgDef = 0;
-        avgDmg = 0;
-        avgSpot = 0;
-        avgWinRate = 0;
-        avgFrag = 0;
+        this.avgDef = 0;
+        this.avgDmg = 0;
+        this.avgSpot = 0;
+        this.avgWinRate = 0;
+        this.avgFrag = 0;
       }
 
       return wn8PerTank.push(wn8data);
