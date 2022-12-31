@@ -10,7 +10,7 @@ Application, which calculates and displays World of Tanks player and tank statis
 
 ![Image](public/readme/views_mobile.png)
 
-## Project Setup
+## Project Setup.
 
 ```sh
 npm install
