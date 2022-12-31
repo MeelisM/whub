@@ -6,6 +6,8 @@ Application, which calculates and displays World of Tanks player and tank statis
 
 ![Image](public/readme/views_mobile.png)
 
+### How to run
+
 Create `.env` file. Content example can be found in `.env.example`.
 
 ## Recommended IDE Setup
