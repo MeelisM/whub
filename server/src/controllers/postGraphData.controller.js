@@ -12,7 +12,7 @@ module.exports = async function (req, res) {
                 wn8: req.body.wn8,
             });
             res.status(200).json({ message: 'Added!' });
-        } else {
+        } else if (battles !== req.body.battles) {
             await PlayerGraph.updateMany(
                 { playerId: req.body.playerId },
                 {
